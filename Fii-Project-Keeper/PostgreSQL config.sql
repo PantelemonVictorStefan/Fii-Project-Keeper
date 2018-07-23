@@ -1,0 +1,1 @@
+create table accounts(username char(30) not null primary key,password int not null,year char(3),type int);
