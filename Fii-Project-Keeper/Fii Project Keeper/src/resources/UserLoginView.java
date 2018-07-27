@@ -24,8 +24,14 @@ public class UserLoginView {
 	
     private int type;
     
+    private String firstName;
+    
 
-    public String getYear() {
+    public String getFirstName() {
+		return firstName;
+	}
+
+	public String getYear() {
 		return year;
 	}
 
@@ -52,6 +58,7 @@ public class UserLoginView {
  
     public void setUsername(String username) {
         this.username = username;
+        addFirstName();
     }
  
     public String getPassword() {
@@ -61,21 +68,22 @@ public class UserLoginView {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public void addFirstName()
+    {
+    	firstName= (""+username.charAt(0)).toUpperCase()+username.substring(1, (username.indexOf("-")==-1)?username.indexOf("."):username.indexOf("-"));
+    }
    
-    public String login(ActionEvent event) {
+    public String login(ActionEvent event) throws IOException {
         FacesMessage message = null;
         boolean loggedIn = false;
          
         message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
         loggedIn=Database.login(username, password.hashCode(),this);
-        if(loggedIn)
-			try {
-				((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().setAttribute("type",type==1?"Student":"Profesor");
-				FacesContext.getCurrentInstance().getExternalContext().redirect("main.xhtml");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        if(loggedIn) {
+			((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().setAttribute("type",type==1?"Student":"Profesor");
+			Security.mainPage();
+		}
         FacesContext.getCurrentInstance().addMessage(null, message);
         message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
         return "";

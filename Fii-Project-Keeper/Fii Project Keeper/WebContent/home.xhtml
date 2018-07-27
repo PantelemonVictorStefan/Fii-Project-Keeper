@@ -25,7 +25,7 @@ xmlns="http://www.w3.org/1999/xhtml"
 
   <h:body >
   <f:metadata>
-  	<f:event type="preRenderView" listener="#{security.professorPage()}"/>
+  	<f:event type="preRenderView" listener="#{security.studentPage()}"/>
   </f:metadata>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -38,7 +38,7 @@ xmlns="http://www.w3.org/1999/xhtml"
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="main.xhtml">Home
+              <a class="nav-link" href="home.xhtml">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -72,8 +72,8 @@ xmlns="http://www.w3.org/1999/xhtml"
       <!-- Page Features -->
       <div class="row text-center">
 
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
+        <div class="col-lg-3 col-md-6 mb-4" style="left:38%; ">
+          <div class="card" >
             <img class="card-img-top" src="mainStyle/icons/upload.png" alt=""/>
             <div class="card-body">
               <h4 class="card-title">Incarca un proiect.</h4>
@@ -85,56 +85,18 @@ xmlns="http://www.w3.org/1999/xhtml"
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-            <img class="card-img-top" src="mainStyle/icons/download.png" alt=""/>
-            <div class="card-body">
-              <h4 class="card-title">Descarca un proiect.</h4>
-             <!-- <p class="card-text">Incarca un proiect.</p>-->
-             </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Download</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-            <img class="card-img-top" src="mainStyle/icons/setari.png" alt=""/>
-            <div class="card-body">
-              <h4 class="card-title">Setari</h4>
-             <!-- <p class="card-text">Incarca un proiect.</p>-->
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Settings</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-            <img class="card-img-top" src="mainStyle/icons/antiplagiere.png" alt=""/>
-            <div class="card-body">
-              <h4 class="card-title">Antiplagiator</h4>
-             <!-- <p class="card-text">Incarca un proiect.</p>-->
-             </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Compare</a>
-            </div>
-          </div>
-        </div>
 
       </div>
       <!-- /.row -->
 
     </div>
     <!-- /.container -->
-
     <!-- Footer -->
     <footer class="py-5 bg-dark" style="position:fixed;
    bottom:0;
    width:100%;
-   left: 0;" >
+   left: 0;"
+   >
       <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
       </div>

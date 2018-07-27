@@ -33,7 +33,9 @@ xmlns="http://www.w3.org/1999/xhtml"
 <!--===============================================================================================-->
 </h:head>
 <h:body>
-	
+	<f:metadata>
+  	<f:event type="preRenderView" listener="#{security.logout()}"/>
+  </f:metadata>
 	<div class="limiter">	
 		<div class="container-login100">
 		<header style="background-color:#343a40; height:56px;position: absolute;

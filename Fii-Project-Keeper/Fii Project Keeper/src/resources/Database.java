@@ -55,11 +55,11 @@ public class Database {
 		try {
 			stmt = connection.createStatement();
 		
-	        ResultSet rs=stmt.executeQuery("select year,type from accounts where username='"+username+"' and password="+password);
+	        ResultSet rs=stmt.executeQuery("select type,year from accounts where username='"+username+"' and password="+password);
 	        while(rs.next())
 	        { 
-	        	year=rs.getString(1);
-	        	type=rs.getInt(2);
+	        	year=rs.getString(2);
+	        	type=rs.getInt(1);
 	        	acc.setYear(year);
 	        	acc.setType(type);
 	        	return true;
