@@ -10,12 +10,12 @@ public class Security {
 
 	public static boolean isStudent()
 	{
-		return("Student"==((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("type"));
+		return("Student".equalsIgnoreCase((String) ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("type")));
 	}
 	
 	public static boolean isProfessor()
 	{
-		return("Profesor"==((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("type"));
+		return("Profesor".equalsIgnoreCase((String) ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("type")));
 	}
 	
 	public static void redirect(String page)
@@ -28,11 +28,15 @@ public class Security {
 		}
 	}
 	
-	public static void isAuthenticated()
+	public static boolean isAuthenticated()
 	{
 			if(!(isStudent()||(isProfessor())))
+				{
+				System.out.println("REDIRECTING");
 				redirect("login.xhtml");
-			
+				return false;
+				}
+			return true;
 	}
 	
 	public static void studentPage()
@@ -44,6 +48,7 @@ public class Security {
 	
 	public static void professorPage()
 	{
+		
 		isAuthenticated();
 		if(isStudent())
 			mainPage();
@@ -51,11 +56,11 @@ public class Security {
 	
 	public static void mainPage()
 	{
-		isAuthenticated();
-		if(isStudent())
-				redirect("home.xhtml");
-			else
-				redirect("main.xhtml");
+		if(isAuthenticated())
+			if(isStudent())
+					redirect("home.xhtml");
+				else
+					redirect("main.xhtml");
 	}
 	
 	public static void logout()

@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en"
+xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui = "http://java.sun.com/jsf/facelets">
+
+  <h:head>
+
+	    <meta charset="utf-8"/>
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+	    <meta name="description" content=""/>
+	    <meta name="author" content=""/>
+	
+	    <title>FII Project Keeper</title>
+	
+	    <!-- Bootstrap core CSS -->
+	    <link href="mainStyle/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+	
+	    <!-- Custom styles for this template -->
+	    <link href="mainStyle/css/heroic-features.css" rel="stylesheet"/>
+
+  </h:head>
+
+  <h:body style="background:#E1E1E1;  ">
+    <f:metadata>
+  		<f:event type="preRenderView" listener="#{security.professorPage()}"/>
+ 	</f:metadata>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container" >
+        <!-- <a class="navbar-brand" href="#">Start Bootstrap</a>-->
+        <img style="margin-top:0px; margin-left:10px; width:200px; height:30px;" src="mainStyle/logo.png" alt="Project Keeper Logo"/>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        	<span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="main.xhtml">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+            <!-- <a class="nav-link" href="#">Contact</a>-->
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" style="margin-left:100px;">#{userLoginView.username}</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.xhtml">Logout</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>-->
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Page Content -->
+	<div class="container" >
+
+      <center>
+      	<p:outputLabel  value="Incarca un proiect "  style="font-size:50px"/>
+      </center>
+
+      <!-- Page Features -->
+		<div class="row text-center"  style=" position:relative; left:-5%">
+			
+	        <h:form>
+		        <table width="100%" cellpadding="20">
+			        <tbody>
+				        <tr>
+				        	<td>
+				        		<p:outputLabel  value="Informatii principale "  style="font-size:25px"/>
+				        	</td>
+				        	<td>
+						        <div style=" height:150px; width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
+							        <h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%" >
+							        	<p:outputLabel for="materie" value="Materie: " />
+									    <p:selectOneMenu id="materie" value="#{projectDTO.materie}" effect="fold" editable="false" >
+									    	<f:selectItem itemLabel="Alege materia" itemValue="" />
+									        <f:selectItems value="#{projectDTO.materii}" />
+									    </p:selectOneMenu>
+									     
+								        <p:outputLabel for="numeRepository" value="Nume repository: " />
+								        <p:inputText id="numeRepository" value="#{projectDTO.numeRepository}" size="24"/>
+								        <p></p>
+								        <p:selectCheckboxMenu id="Limbaje" value="#{projectDTO.limbajeSelectate}" label="Limbaje folosite" multiple="true" 
+								                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+								            <f:selectItems value="#{projectDTO.limbaje}" />
+								        </p:selectCheckboxMenu>
+							        </h:panelGrid>			        
+					        	</div>
+					        </td>
+					    </tr>
+					        
+				        <tr>
+					        <td>
+					        	<p:outputLabel  value="Audienta "  style="font-size:25px"/>
+					        </td>
+					        
+					        <td>
+					        	<div style=" height:175px; width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
+					        
+							        <table cellpadding="5" width="100%" style="margin-left: 10%">
+								        <tbody>
+									        <tr>
+									        	<td width="37%">
+									         		<p:outputLabel value="Alege anul" />
+									         	</td>
+									         
+											     <td>
+											     	<p:selectManyButton value="#{projectDTO.audienta}">
+											            <f:selectItem itemLabel="An1" itemValue="1" />
+											            <f:selectItem itemLabel="An2" itemValue="2" />
+											            <f:selectItem itemLabel="An3" itemValue="3" />
+											        </p:selectManyButton>
+											     </td>
+										     
+										    </tr>
+										    
+										    <tr>   
+										    	<td>
+										    		<p:outputLabel value="Sau" />
+										    	</td>
+									        
+										    	<td>
+										       		<p:selectCheckboxMenu id="studenti" value="#{projectDTO.studentiSelectati}" label="Adauga studenti" multiple="true"
+											                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+											            <f:selectItems value="#{projectDTO.studenti}" />
+											    	</p:selectCheckboxMenu>
+												</td>
+										    </tr>
+										    
+										    <tr>
+										    	<td>
+										    		<p:outputLabel value="Numar incarcari permise:" />
+										    	</td>
+										    	
+											    <td>
+											    	<h:panelGrid columns="2" cellpadding="5" style="margin: 0">
+												        <p:selectOneRadio value="#{projectDTO.limitat}">
+													    	<f:selectItem itemValue="false" itemLabel="Nelimitat" />
+													    	<f:selectItem itemValue="true" itemLabel="Limitat" />
+														</p:selectOneRadio>
+														<p:spinner id="basic" value="#{projectDTO.incarcariPermise}" size="1" />
+													</h:panelGrid>
+												</td>
+											</tr>
+										</tbody>
+							        </table>
+							        
+							        
+						        </div>
+					        </td>
+					   	</tr>
+					   	
+					    <tr>
+					        <td>
+					        	<p:outputLabel  value="Termen incarcare"  style="font-size:25px"/>
+					        </td>
+					        
+					        <td>
+						        <div style=" height:100px; width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
+								    <table  cellpadding="5" width="100%" style="margin-left: 10%; ">
+								        <tbody>
+									        <tr>
+									        	<td width="37%">
+									        		<p:outputLabel for="data" value="Data:" />
+									        	</td>
+									        	
+										        <td>
+										        	<p:calendar id="data" value="#{projectDTO.data}" mindate="#{systemConfiguration.getDate()}" editable="false"/>
+										        </td>
+										    </tr>
+										    
+										    <tr>
+										        <td >
+										        	<p:outputLabel for="ora" value="Ora:" />
+										        </td>
+										        
+										        <td>
+										        	<p:calendar id="ora" value="#{projectDTO.ora}" pattern="HH:mm" timeOnly="true"  />
+										        </td>
+										   	</tr>
+									   	</tbody>
+							        </table>
+						        </div>
+					        </td>
+					    </tr>
+					        
+					    <tr>
+					        <td>
+					        	<p:outputLabel  value="Alte informatii"  style="font-size:25px"/>
+					        </td>
+					        
+					        <td>
+					        	<div style=" height:150px; width:150%;  background:#FFFFFF; border-radius:25px; text-align:left;">
+					        
+							        <table  cellpadding="5" width="100%" style="margin-left: 10%;">
+								        <tbody>
+									        <tr>
+										        <td width="37%">
+										        	<h:outputText id="displayText" style="position:relative; resize:vertical;display:block;width:135px"  />
+										        </td>
+										        
+										        <td>
+										        	<p:inputTextarea rows="4" cols="40" counter="displayText" maxlength="1000" counterTemplate="{0} characters remaining." autoResize="false" value="#{projectDTO.detalii}" />
+												</td>
+									        </tr>
+								        </tbody>
+							        </table>
+						      		
+								    
+						        </div>
+					        </td>
+					    </tr>
+					    
+					    <tr>
+					        <td></td>
+					        
+					        <td>
+					        	<div style=" width:150%;text-align:center;">
+					        		<p:commandButton value="Submit"  icon="ui-icon-check" actionListener="#{projectDTO.submit}" />
+					        	</div>
+					        </td>
+					    </tr>
+					</tbody>
+				</table>
+	       </h:form> 
+		</div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer
+     -->
+ 
+        <footer class="py-5 bg-dark" style="position:relative; bottom:0; width:100%; left: 0;" >
+      		<div class="container">
+        		<p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
+      		</div>
+    	</footer>    
+ 
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="mainStyle/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  </h:body>
+
+</html>

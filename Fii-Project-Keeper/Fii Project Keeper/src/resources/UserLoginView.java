@@ -22,7 +22,7 @@ public class UserLoginView {
 
 	private String year;
 	
-    private int type;
+    private String type;
     
     private String firstName;
     
@@ -40,10 +40,10 @@ public class UserLoginView {
 	}
 
 	public String getType() {
-		return type==1?"Student":"Profesor";
+		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
     
@@ -69,9 +69,10 @@ public class UserLoginView {
         this.password = password;
     }
     
+
     public void addFirstName()
     {
-    	firstName= (""+username.charAt(0)).toUpperCase()+username.substring(1, (username.indexOf("-")==-1)?username.indexOf("."):username.indexOf("-"));
+    	firstName=(""+username.charAt(0)).toUpperCase()+username.substring(1,((username.indexOf("-")<1?(username.indexOf(".")<1?username.length()-1:username.indexOf(".")):username.indexOf("-")<1?username.length()-1:username.indexOf("-"))));
     }
    
     public String login(ActionEvent event) throws IOException {
@@ -79,13 +80,15 @@ public class UserLoginView {
         boolean loggedIn = false;
          
         message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
-        loggedIn=Database.login(username, password.hashCode(),this);
+        if(Validator.validateSqlInjection(username))
+        	loggedIn=Database.login(this);
         if(loggedIn) {
-			((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().setAttribute("type",type==1?"Student":"Profesor");
+			((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().setAttribute("type",type);
 			Security.mainPage();
 		}
         FacesContext.getCurrentInstance().addMessage(null, message);
         message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
+        System.out.println(firstName+" "+username+" "+password+" "+year+" "+type+" logged"+loggedIn);
         return "";
     }   
 }
