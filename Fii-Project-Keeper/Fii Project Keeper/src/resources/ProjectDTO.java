@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 public class ProjectDTO {
@@ -139,6 +141,15 @@ public class ProjectDTO {
     	}
     	return yearCode;
     }
+    
+    @SuppressWarnings("deprecation")
+	private boolean isToday(Date date)
+    {
+    	Date today=new Date();
+    	if((date.getYear()==today.getYear())&&(date.getMonth()==today.getMonth())&&(date.getDay()==today.getDay()))
+    		return true;
+    	return false;
+    }
 	
 	void init()
 	{
@@ -161,10 +172,10 @@ public class ProjectDTO {
 	{
 		System.out.println("materie: "+materie);
 		System.out.println("numeRepository: "+numeRepository);
-		DateFormat dataFormat = new SimpleDateFormat("MM/dd/yyyy");			//"MM/dd/yyyy HH:mm:ss"
-		DateFormat oraFormat = new SimpleDateFormat("HH:mm");
-		System.out.println("data:"+dataFormat.format(data));
-		System.out.println("Ora :"+oraFormat.format(ora));
+		//DateFormat dataFormat = new SimpleDateFormat("MM/dd/yyyy");			//"MM/dd/yyyy HH:mm:ss"
+		//DateFormat oraFormat = new SimpleDateFormat("HH:mm");
+		//System.out.println("data:"+dataFormat.format(data));
+		//System.out.println("Ora :"+oraFormat.format(ora));
 		for(int i=0;i<audienta.size();i++)
 			System.out.println("audienta["+(i+1)+"]= "+audienta.get(i));
 		for(int i=0;i<studentiSelectati.length;i++)
@@ -190,22 +201,109 @@ public class ProjectDTO {
 		init();
 	}
 
-	boolean objectIsValid()
+	private boolean objectIsValid()
 	{
-		return (
-				(Validator.validateSqlInjection(materie))&&
-				(Validator.validateSqlInjection(numeRepository))&&
-				(Validator.validateSqlInjection(detalii))&&
-				(Validator.validateContaining(materie, "/","."))&&
-				(Validator.validateContaining(numeRepository, "/",".")));
+		boolean valid=true;
+		ArrayList<FacesMessage> messages=new ArrayList<FacesMessage>();
+		
+		if(materie==null)
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n \"Materie\" is null",""));
+		}
+		
+		if(materie.length()>30)
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n \"Materie\" is too long",""));
+		}
+		
+		if(Validator.stringContains(materie,"'","/","\\",":","*","?","\"","<",">","|"))
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n \"Materie\" containing unallowed characters",""));
+		}
+		
+		
+		
+		
+		if(numeRepository==null)
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n \"Nume Repository\" is null",""));
+		}
+		
+		if(Validator.stringContains(numeRepository,"'","/","\\",":","*","?","\"","<",">","|"))
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n \"Nume Repository\" containing unallowed characters",""));
+		}
+		
+		if(numeRepository.length()>30)
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n \"Nume Repository\" is too long",""));
+		}
+		
+		
+		
+		if(((audienta.isEmpty()))&&(studentiSelectati.length==0))
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n No students selected",""));
+		}
+		
+		if((isLimitat())&&((incarcariPermise<1)||(incarcariPermise>1000)))
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n \"Numar incarcari permise\" is invalid",""));
+		}
+		
+		
+		if((data!=null)&&(data.compareTo(new Date())<0)&&(!isToday(data)))
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n Invalid Date",""));
+		}
+		
+		if((ora==null)&&(ora!=null))
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n Date is null",""));
+		}
+		
+		
+		
+		if(Validator.stringContains(detalii,"'"))
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n \"Nume Repository\" containing unallowed characters",""));
+		}
+		
+		if(detalii.length()>1000)
+		{
+			valid=false;
+			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n \"Nume Repository\" is too long",""));
+		}
+		
+		if(!valid)
+			for(int i=0;i<messages.size();i++)
+				FacesContext.getCurrentInstance().addMessage(null,messages.get(i));
+		return valid;
 	}
 	
 	public void submit()
-	{
+	{	
 		if(objectIsValid())
-			Database.addProject(new Proiect(materie,numeRepository,getDeadlineDay(),getDeadlineTime(),getYearCode(),isLimitat(),incarcariPermise,detalii,limbajeSelectate));
+			if(Database.addProject(new Proiect(materie,numeRepository,getDeadlineDay(),getDeadlineTime(),getYearCode(),studentiSelectati,isLimitat(),incarcariPermise,detalii,limbajeSelectate)))
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Repository-ul a fost creat cu succes! ",""));
+			else
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Repository-ul nu a putut fi salvat",""));
 		else
 			System.out.println("object not valid");
 	}
+	
+	
+	
 }
 

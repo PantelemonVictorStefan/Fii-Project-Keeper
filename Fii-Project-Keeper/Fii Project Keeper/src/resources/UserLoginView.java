@@ -75,20 +75,16 @@ public class UserLoginView {
     	firstName=(""+username.charAt(0)).toUpperCase()+username.substring(1,((username.indexOf("-")<1?(username.indexOf(".")<1?username.length()-1:username.indexOf(".")):username.indexOf("-")<1?username.length()-1:username.indexOf("-"))));
     }
    
-    public String login(ActionEvent event) throws IOException {
-        FacesMessage message = null;
+    public void login()
+    {
         boolean loggedIn = false;
-         
-        message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
-        if(Validator.validateSqlInjection(username))
+        if(!Validator.stringContains(username,"'"))
         	loggedIn=Database.login(this);
         if(loggedIn) {
 			((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().setAttribute("type",type);
 			Security.mainPage();
 		}
-        FacesContext.getCurrentInstance().addMessage(null, message);
-        message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials");
-        System.out.println(firstName+" "+username+" "+password+" "+year+" "+type+" logged"+loggedIn);
-        return "";
+        else
+        	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials"));
     }   
 }

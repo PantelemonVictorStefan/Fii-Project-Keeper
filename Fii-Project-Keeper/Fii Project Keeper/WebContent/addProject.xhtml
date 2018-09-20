@@ -21,14 +21,19 @@ xmlns="http://www.w3.org/1999/xhtml"
 	
 	    <!-- Custom styles for this template -->
 	    <link href="mainStyle/css/heroic-features.css" rel="stylesheet"/>
-
+<style type="text/css">
+            .ui-growl {
+right: 20px;
+top: 10%;
+}
+        </style>
   </h:head>
 
-  <h:body style="background:#E1E1E1;  ">
-    <f:metadata>
-  		<f:event type="preRenderView" listener="#{security.professorPage()}"/>
- 	</f:metadata>
-    <!-- Navigation -->
+  <h:body style="background:#E1E1E1; padding-top:65px; ">
+  <f:metadata>
+  	<f:event type="preRenderView" listener="#{security.professorPage()}"/>
+  </f:metadata>
+    <!-- Navigation --> 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container" >
         <!-- <a class="navbar-brand" href="#">Start Bootstrap</a>-->
@@ -70,7 +75,8 @@ xmlns="http://www.w3.org/1999/xhtml"
       <!-- Page Features -->
 		<div class="row text-center"  style=" position:relative; left:-5%">
 			
-	        <h:form>
+	        <h:form id="panel">
+	        <p:growl id="growl"  life="10000" />
 		        <table width="100%" cellpadding="20">
 			        <tbody>
 				        <tr>
@@ -81,13 +87,15 @@ xmlns="http://www.w3.org/1999/xhtml"
 						        <div style=" height:150px; width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
 							        <h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%" >
 							        	<p:outputLabel for="materie" value="Materie: " />
-									    <p:selectOneMenu id="materie" value="#{projectDTO.materie}" effect="fold" editable="false" >
+									    <p:selectOneMenu id="materie" value="#{projectDTO.materie}" effect="fold" editable="false" required="true" >
 									    	<f:selectItem itemLabel="Alege materia" itemValue="" />
 									        <f:selectItems value="#{projectDTO.materii}" />
 									    </p:selectOneMenu>
 									     
 								        <p:outputLabel for="numeRepository" value="Nume repository: " />
-								        <p:inputText id="numeRepository" value="#{projectDTO.numeRepository}" size="24"/>
+								        <p:inputText id="numeRepository" value="#{projectDTO.numeRepository}" size="24" required="true" maxlength="30">
+								        	<f:validateRegex pattern="((?!')(?!\/)(?!\\)(?!:)(?!\*)(?!\?)(?!\&#34;)(?!&#60;)(?!&#62;)(?!\|).)*$"></f:validateRegex>
+								        </p:inputText>
 								        <p></p>
 								        <p:selectCheckboxMenu id="Limbaje" value="#{projectDTO.limbajeSelectate}" label="Limbaje folosite" multiple="true" 
 								                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
@@ -100,7 +108,7 @@ xmlns="http://www.w3.org/1999/xhtml"
 					        
 				        <tr>
 					        <td>
-					        	<p:outputLabel  value="Audienta "  style="font-size:25px"/>
+					        	<p:outputLabel  value="Audienta* "  style="font-size:25px"/>
 					        </td>
 					        
 					        <td>
@@ -147,7 +155,9 @@ xmlns="http://www.w3.org/1999/xhtml"
 													    	<f:selectItem itemValue="false" itemLabel="Nelimitat" />
 													    	<f:selectItem itemValue="true" itemLabel="Limitat" />
 														</p:selectOneRadio>
-														<p:spinner id="basic" value="#{projectDTO.incarcariPermise}" size="1" />
+														<p:spinner id="basic" value="#{projectDTO.incarcariPermise}" size="1" >
+														<f:validateLongRange minimum="0" maximum="1000"/>
+														</p:spinner>
 													</h:panelGrid>
 												</td>
 											</tr>
@@ -184,7 +194,7 @@ xmlns="http://www.w3.org/1999/xhtml"
 										        </td>
 										        
 										        <td>
-										        	<p:calendar id="ora" value="#{projectDTO.ora}" pattern="HH:mm" timeOnly="true"  />
+										        	<p:calendar id="ora" value="#{projectDTO.ora}" pattern="HH:mm" timeOnly="true" editable="false"  />
 										        </td>
 										   	</tr>
 									   	</tbody>
@@ -209,7 +219,9 @@ xmlns="http://www.w3.org/1999/xhtml"
 										        </td>
 										        
 										        <td>
-										        	<p:inputTextarea rows="4" cols="40" counter="displayText" maxlength="1000" counterTemplate="{0} characters remaining." autoResize="false" value="#{projectDTO.detalii}" />
+										        	<p:inputTextarea rows="4" cols="40" counter="displayText" maxlength="1000" counterTemplate="{0} characters remaining." autoResize="false" value="#{projectDTO.detalii}">
+										        		<f:validateRegex pattern="^((?!').)*$"></f:validateRegex>
+										        	</p:inputTextarea>
 												</td>
 									        </tr>
 								        </tbody>
@@ -225,7 +237,7 @@ xmlns="http://www.w3.org/1999/xhtml"
 					        
 					        <td>
 					        	<div style=" width:150%;text-align:center;">
-					        		<p:commandButton value="Submit"  icon="ui-icon-check" actionListener="#{projectDTO.submit}" />
+					        		<p:commandButton value="Submit"  icon="ui-icon-check" actionListener="#{projectDTO.submit}" update="panel" />
 					        	</div>
 					        </td>
 					    </tr>

@@ -81,13 +81,14 @@ public class Proiect {
 		this.limbajeSelectate = limbajeSelectate;
 	}
 	
-	Proiect(String materie,String numeRepository,String data,String ora, String audienta,boolean limitat,int incarcariPermise,String Detalii,String[] limbajeSelectate)
+	Proiect(String materie,String numeRepository,String data,String ora, String audienta,String[] studentiSelectati,boolean limitat,int incarcariPermise,String detalii,String[] limbajeSelectate)
 	{
 		this.materie=materie;
 		this.numeRepository=numeRepository;
 		this.data=data;
 		this.ora=ora;
 		this.audienta=audienta;
+		this.studentiSelectati=studentiSelectati;
 		this.limitat=limitat;
 		this.incarcariPermise=incarcariPermise;
 		this.detalii=detalii;
