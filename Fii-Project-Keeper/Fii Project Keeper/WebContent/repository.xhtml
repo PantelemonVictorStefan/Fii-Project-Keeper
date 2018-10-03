@@ -20,13 +20,29 @@ xmlns="http://www.w3.org/1999/xhtml"
 
     <!-- Custom styles for this template -->
     <link href="mainStyle/css/heroic-features.css" rel="stylesheet"/>
+    
+    <style type="text/css">
+.ui-datagrid-no-border>.ui-datagrid-content {
+	border: none;
+	background-color:none;
+	background-image:none;
+	background:none;
+}		
+p {
+color:#343a40;
+}
+.ui-widget-content a {
+    color: #343a40;
+}
+
+.ui-grid-row {
+    margin-bottom:10px;
+}
+</style>
 
   </h:head>
 
   <h:body >
-  <f:metadata>
-  	<f:event type="preRenderView" listener="#{security.professorPage()}"/>
-  </f:metadata>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container" >
@@ -38,7 +54,7 @@ xmlns="http://www.w3.org/1999/xhtml"
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="main.xhtml">Home
+              <a class="nav-link" href="home.xhtml">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -63,78 +79,22 @@ xmlns="http://www.w3.org/1999/xhtml"
     <div class="container">
 
       <!-- Jumbotron Header -->
-      <header class="jumbotron my-4">
-        <h1 class="display-3">Bine ai venit, #{userLoginView.firstName}!</h1>
-       <!--  <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
-        <a href="#" class="btn btn-primary btn-lg">Call to action!</a>-->
-      </header>
-
-      <!-- Page Features -->
-      <div class="row text-center">
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-            <img class="card-img-top" src="mainStyle/icons/upload.png" alt=""/>
-            <div class="card-body">
-              <h4 class="card-title">Incarca un proiect.</h4>
-             <!-- <p class="card-text">Incarca un proiect.</p>-->
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Upload</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-            <img class="card-img-top" src="mainStyle/icons/download.png" alt=""/>
-            <div class="card-body">
-              <h4 class="card-title">Descarca un proiect.</h4>
-             <!-- <p class="card-text">Incarca un proiect.</p>-->
-             </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Download</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-            <img class="card-img-top" src="mainStyle/icons/setari.png" alt=""/>
-            <div class="card-body">
-              <h4 class="card-title">Setari</h4>
-             <!-- <p class="card-text">Incarca un proiect.</p>-->
-            </div>
-            <div class="card-footer">
-              <a href="settings.xhtml" class="btn btn-primary">Settings</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-md-6 mb-4">
-          <div class="card">
-            <img class="card-img-top" src="mainStyle/icons/antiplagiere.png" alt=""/>
-            <div class="card-body">
-              <h4 class="card-title">Antiplagiator</h4>
-             <!-- <p class="card-text">Incarca un proiect.</p>-->
-             </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Compare</a>
-            </div>
-          </div>
-        </div>
-
+      <div class="jumbotron my-4">
+      
+      #{repositoriesView.proiecte.get(1).title}
+      
       </div>
+
       <!-- /.row -->
 
     </div>
     <!-- /.container -->
-
     <!-- Footer -->
     <footer class="py-5 bg-dark" style="position:fixed;
    bottom:0;
    width:100%;
-   left: 0;" >
+   left: 0;"
+   >
       <div class="container">
         <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
       </div>

@@ -4,16 +4,10 @@ import java.io.IOException;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
-
-import com.sun.research.ws.wadl.Request;
-//import org.primefaces.PrimeFaces;
  
 @ManagedBean
-@SessionScoped
 public class UserLoginView {
      
     private String username;
@@ -77,12 +71,19 @@ public class UserLoginView {
    
     public void login()
     {
-        boolean loggedIn = false;
+        User user=null;
         if(!Validator.stringContains(username,"'"))
-        	loggedIn=Database.login(this);
-        if(loggedIn) {
-			((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().setAttribute("type",type);
-			Security.mainPage();
+        	user=Database.login(username,password);
+        if(user!=null)
+        {
+        	((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().setAttribute("user",user);
+        	try {
+				FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
         else
         	FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Loggin Error", "Invalid credentials"));

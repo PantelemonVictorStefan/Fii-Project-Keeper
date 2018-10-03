@@ -56,15 +56,23 @@ public class Security {
 	
 	public static void mainPage()
 	{
-		if(isAuthenticated())
+		redirect("home.xhtml");
+		/*if(isAuthenticated())
 			if(isStudent())
 					redirect("home.xhtml");
 				else
-					redirect("main.xhtml");
+					redirect("main.xhtml");*/
 	}
 	
 	public static void logout()
 	{
+		System.out.println("Logged out!");
 		((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().invalidate();
+		redirect("login.xhtml");
+	}
+	
+	public static User getUser()
+	{
+		return (User)((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("user");
 	}
 }

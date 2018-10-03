@@ -5,12 +5,14 @@ xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui">
+    
+    
 <h:head>
 	<title>Project Keeper</title>
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="loginStyle/images/icons/favicon.ico"/>
+	<link rel="icon" type="image/png" href="loginStyle/images/icons/favicon.ico?v=2"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="loginStyle/vendor/bootstrap/css/bootstrap.min.css"/>
 <!--===============================================================================================-->
@@ -31,19 +33,30 @@ xmlns="http://www.w3.org/1999/xhtml"
 	<link rel="stylesheet" type="text/css" href="loginStyle/css/util.css"/>
 	<link rel="stylesheet" type="text/css" href="loginStyle/css/main.css"/>
 <!--===============================================================================================-->
+
+	<style type="text/css">
+		.ui-growl
+		{
+			right: 20px;
+			top: 10%;
+		}
+	</style>
+
 </h:head>
 <h:body>
-	<f:metadata>
-  	<f:event type="preRenderView" listener="#{security.logout()}"/>
-  </f:metadata>
+
 	<div class="limiter">	
 		<div class="container-login100">
-		<header style="background-color:#343a40; height:56px;position: absolute;
-    top: 0;
-    left:0; 
-    right:0">
-		<img style="margin-top:13px; margin-left:17%; width:200px; height:30px;" src="mainStyle/logo.png" alt="Project Keeper Logo"/>
-  	</header>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="height:56px;">
+      <div class="container" >
+        <!-- <a class="navbar-brand" href="#">Start Bootstrap</a>-->
+        <img style="margin-top:0px; margin-left:10px; width:200px; height:30px;" src="mainStyle/logo.png" alt="Project Keeper Logo"/>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+      </div>
+    </nav>
 			<div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55">
 				<h:form class="login100-form validate-form flex-sb flex-w">
 				<p:growl  id="growl" sticky="true" showDetail="true" life="3000" />

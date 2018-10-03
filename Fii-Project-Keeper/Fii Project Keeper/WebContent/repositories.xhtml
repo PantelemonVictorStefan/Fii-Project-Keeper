@@ -4,41 +4,93 @@
 xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:ui = "http://java.sun.com/jsf/facelets">
+    xmlns:p="http://primefaces.org/ui">
 
   <h:head>
 
-	    <meta charset="utf-8"/>
-	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-	    <meta name="description" content=""/>
-	    <meta name="author" content=""/>
-	
-	    <title>FII Project Keeper</title>
-	
-	    <!-- Bootstrap core CSS -->
-	    <link href="mainStyle/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-	
-	    <!-- Custom styles for this template -->
-	    <link href="mainStyle/css/heroic-features.css" rel="stylesheet"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+
+    <title>FII Project Keeper</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="mainStyle/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link href="mainStyle/css/heroic-features.css" rel="stylesheet"/>
+    
+    <style type="text/css">
+.ui-datagrid-no-border>.ui-datagrid-content {
+	border: none;
+	background-color:none;
+	background-image:none;
+	background:none;
+}		
+p {
+color:#343a40;
+}
+.ui-widget-content a {
+    color: #343a40;
+}
+
+.ui-grid-row {
+    margin-bottom:10px;
+}
+
+
+.ui-commandlink
+{
+color: rgba(255,255,255,.5);
+
+padding-right: .5rem;
+padding-left: .5rem;
+
+display: block;
+padding: .5rem 1rem;
+
+text-decoration: none;
+background-color: transparent;
+
+outline: 0;
+
+box-sizing: border-box;
+
+font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+font-size: 1rem;
+font-weight: 400;
+line-height: 1.5;
+text-align: left;
+}
+
+.ui-commandlink:hover
+{
+color:#b9cdbd;
+text-decoration: none;
+}
+
+
+</style>
 
   </h:head>
 
-  <h:body style="background:#E1E1E1;  ">
-    
+  <h:body >
+  <f:metadata>
+  	<f:event type="preRenderView" listener="#{user.hasAccess(12)}"/>
+  </f:metadata>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    
-      <div class="container">
+      <div class="container" >
         <!-- <a class="navbar-brand" href="#">Start Bootstrap</a>-->
         <img style="margin-top:0px; margin-left:10px; width:200px; height:30px;" src="mainStyle/logo.png" alt="Project Keeper Logo"/>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        	<span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="main.xhtml">Home
+              <a class="nav-link" href="home.xhtml">Home
                 <span class="sr-only">(current)</span>
               </a>
             </li>
@@ -46,10 +98,12 @@ xmlns="http://www.w3.org/1999/xhtml"
             <!-- <a class="nav-link" href="#">Contact</a>-->
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" style="margin-left:100px;">#{userLoginView.username}</a>
+              <a class="nav-link" href="#" style="margin-left:100px;">#{user.username}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="login.xhtml">Logout</a>
+            <h:form>
+              <p:commandLink value="Logout" actionListener="#{security.logout}"  />
+              </h:form>
             </li>
             <!-- <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -60,33 +114,70 @@ xmlns="http://www.w3.org/1999/xhtml"
     </nav>
 
     <!-- Page Content -->
-	<div class="container" >
+    <div class="container">
 
+      <!-- Jumbotron Header -->
+      <div class="jumbotron my-4">
       
+      <p:dataGrid var="proiect" value="#{repositoriesView.proiecte}" columns="3" layout="grid" id="proiecte" styleClass="ui-datagrid-no-border" >
+ 
+        
+ 
+        
+ 
+ <div class="card" style="margin:10px; text-align:center; background-color:#f7ff8a; " >
+            <h3><h:outputText value="#{proiect.title}" /></h3>
+            <div style="margin-left:10px;backgdound:#eaef0980; height:100%">
+              <table style="width:100%">
+              	<tbody>
+              		<tr>
+              		<td style="text-align:left"><p>Deadline:</p></td>
+              		<td>
+              			<p style="margin:0px"><h:outputText value="#{proiect.data}" /></p>
+              			<p><h:outputText value="#{proiect.ora}" /></p>
+              		</td>
+              		</tr>
+              		<tr>
+              		<td style="text-align:left">
+              			<p>Incarcari Ramase</p>
+              		</td>
+              		<td>
+              			<h2>3</h2>
+              		</td>
+              		</tr>
+              	</tbody>
+              </table>
+             <!-- <p class="card-text">Incarca un proiect.</p>-->
+            </div>
+            <div class="card-footer" style="background-color:#ced5b5;">
+              <a href="##{repositoriesView.proiecte.indexOf(proiect)}" class="btn btn-primary">Open</a>
+            </div>
+            
+          </div>
+        
+ 
+    </p:dataGrid>
+      
+      </div>
 
-      <!-- Page Features -->
-		<div class="row text-center"  style=" position:relative; left:-5%">
-			
-	        <h:form>
-	        
-	        </h:form> 
-		</div>
       <!-- /.row -->
 
     </div>
     <!-- /.container -->
-
-    <!-- Footer
-     -->
- 
-        <footer class="py-5 bg-dark" style="position:relative; bottom:0; width:100%; left: 0;" >
-      		<div class="container">
-        		<p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
-      		</div>
-    	</footer>    
- 
+    <!-- Footer -->
+    <footer class="py-5 bg-dark" style="position:fixed;
+   bottom:0;
+   width:100%;
+   left: 0;"
+   >
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
+      </div>
+      <!-- /.container -->
+    </footer>
 
     <!-- Bootstrap core JavaScript -->
+    <script src="mainStyle/vendor/jquery/jquery.min.js"></script>
     <script src="mainStyle/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   </h:body>
 

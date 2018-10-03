@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean
 public class Proiect {
 
+	
 	private String materie;
 	private String numeRepository;
 	private String data;
@@ -94,6 +95,7 @@ public class Proiect {
 		this.detalii=detalii;
 		this.limbajeSelectate=limbajeSelectate;
 	}
+	
 
 	
 }

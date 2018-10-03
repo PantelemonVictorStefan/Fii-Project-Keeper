@@ -4,7 +4,9 @@
 xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
 
   <h:head>
 
@@ -17,17 +19,50 @@ xmlns="http://www.w3.org/1999/xhtml"
 
     <!-- Bootstrap core CSS -->
     <link href="mainStyle/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="icon" type="image/png" href="mainStyle/icons/favicon.ico"/>
 
     <!-- Custom styles for this template -->
     <link href="mainStyle/css/heroic-features.css" rel="stylesheet"/>
+<style>
+.ui-commandlink
+{
+color: rgba(255,255,255,.5);
 
+padding-right: .5rem;
+padding-left: .5rem;
+
+display: block;
+padding: .5rem 1rem;
+
+text-decoration: none;
+background-color: transparent;
+
+outline: 0;
+
+box-sizing: border-box;
+
+}
+
+.ui-commandlink:hover
+{
+color:#b9cdbd;
+text-decoration: none;
+}
+
+.ui-widget
+{
+font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+font-size: 1rem;
+font-weight: 400;
+line-height: 1.5;
+text-align: left;
+}
+</style>
   </h:head>
 
   <h:body >
-  <f:metadata>
-  	<f:event type="preRenderView" listener="#{security.studentPage()}"/>
-  </f:metadata>
     <!-- Navigation -->
+    
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container" >
         <!-- <a class="navbar-brand" href="#">Start Bootstrap</a>-->
@@ -46,10 +81,12 @@ xmlns="http://www.w3.org/1999/xhtml"
             <!-- <a class="nav-link" href="#">Contact</a>-->
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" style="margin-left:100px;">#{userLoginView.username}</a>
+              <a class="nav-link" href="#" style="margin-left:100px;">#{user.username}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="login.xhtml">Logout</a>
+            <h:form>
+              <p:commandLink value="Logout" actionListener="#{security.logout}"  />
+              </h:form>
             </li>
             <!-- <li class="nav-item">
               <a class="nav-link" href="#">Contact</a>
@@ -64,29 +101,85 @@ xmlns="http://www.w3.org/1999/xhtml"
 
       <!-- Jumbotron Header -->
       <header class="jumbotron my-4">
-        <h1 class="display-3">Bine ai venit, #{userLoginView.firstName}!</h1>
+        <h1 class="display-3">Bine ai venit, #{user.firstName}!</h1>
        <!--  <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
         <a href="#" class="btn btn-primary btn-lg">Call to action!</a>-->
       </header>
-
       <!-- Page Features -->
-      <div class="row text-center">
-
-        <div class="col-lg-3 col-md-6 mb-4" style="left:38%; ">
-          <div class="card" >
-            <img class="card-img-top" src="mainStyle/icons/upload.png" alt=""/>
-            <div class="card-body">
-              <h4 class="card-title">Incarca un proiect.</h4>
-             <!-- <p class="card-text">Incarca un proiect.</p>-->
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Upload</a>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
+      <c:if test="#{user.getTypeNumber()==1}">
+	      <div class="row text-center">
+	
+	        <div class="col-lg-3 col-md-6 mb-4" style="left:38%; ">
+	          <div class="card" >
+	            <img class="card-img-top" src="mainStyle/icons/upload.png" alt=""/>
+	            <div class="card-body">
+	              <h4 class="card-title">Incarca un proiect.</h4>
+	             <!-- <p class="card-text">Incarca un proiect.</p>-->
+	            </div>
+	            <div class="card-footer">
+	              <a href="repositories.xhtml" class="btn btn-primary">Upload</a>
+	            </div>
+	          </div>
+	        </div>
+	       
+	      </div>
+      </c:if>
+      
+      <c:if test="#{user.getTypeNumber()==2}">
+	        <div class="row text-center">
+	        <div class="col-lg-3 col-md-6 mb-4">
+	          <div class="card">
+	            <img class="card-img-top" src="mainStyle/icons/upload.png" alt=""/>
+	            <div class="card-body">
+	              <h4 class="card-title">Incarca un proiect.</h4>
+	             <!-- <p class="card-text">Incarca un proiect.</p>-->
+	            </div>
+	            <div class="card-footer">
+	              <a href="repositories.xhtml" class="btn btn-primary">Upload</a>
+	            </div>
+	          </div>
+	        </div>
+	
+	        <div class="col-lg-3 col-md-6 mb-4">
+	          <div class="card">
+	            <img class="card-img-top" src="mainStyle/icons/download.png" alt=""/>
+	            <div class="card-body">
+	              <h4 class="card-title">Descarca un proiect.</h4>
+	             <!-- <p class="card-text">Incarca un proiect.</p>-->
+	             </div>
+	            <div class="card-footer">
+	              <a href="#" class="btn btn-primary">Download</a>
+	            </div>
+	          </div>
+	        </div>
+	
+	        <div class="col-lg-3 col-md-6 mb-4">
+	         	<div class="card">
+		            <img class="card-img-top" src="mainStyle/icons/setari.png" alt=""/>
+		            <div class="card-body">
+		              <h4 class="card-title">Setari</h4>
+		             <!-- <p class="card-text">Incarca un proiect.</p>-->
+		            </div>
+		            <div class="card-footer">
+		              <a href="settings.xhtml" class="btn btn-primary">Settings</a>
+		            </div>
+	        	</div>
+	        </div>
+	
+	        <div class="col-lg-3 col-md-6 mb-4">
+	          <div class="card">
+	            <img class="card-img-top" src="mainStyle/icons/antiplagiere.png" alt=""/>
+	            <div class="card-body">
+	              <h4 class="card-title">Antiplagiator</h4>
+	             <!-- <p class="card-text">Incarca un proiect.</p>-->
+	             </div>
+	            <div class="card-footer">
+	              <a href="#" class="btn btn-primary">Compare</a>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+      </c:if>
       <!-- /.row -->
 
     </div>
