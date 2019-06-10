@@ -53,7 +53,7 @@ public class User {
 	public User()
 	{
 		//Security.logout();
-		Security.redirect("login.xhtml");
+		//Security.redirect("login.xhtml");
 	}
 	public int getTypeNumber()
 	{

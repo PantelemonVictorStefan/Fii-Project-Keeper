@@ -28,6 +28,9 @@ xmlns="http://www.w3.org/1999/xhtml"
   </h:head>
 
   <h:body >
+  <f:metadata>
+  	<f:event type="preRenderView" listener="#{security.isAuthenticated()}"/>
+  </f:metadata>
     <!-- Navigation -->
     
     <ex:navBar/>
@@ -38,8 +41,7 @@ xmlns="http://www.w3.org/1999/xhtml"
       <!-- Jumbotron Header -->
       <header class="jumbotron my-4">
         <h1 class="display-3">Bine ai venit, #{user.firstName}!</h1>
-       <!--  <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
-        <a href="#" class="btn btn-primary btn-lg">Call to action!</a>-->
+       
       </header>
       <!-- Page Features -->
       <c:if test="#{user.getTypeNumber()==1}">

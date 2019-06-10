@@ -6,6 +6,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+
+import DataAccess.DataAccessAPI;
  
 @ManagedBean
 public class UserLoginView {
@@ -71,9 +73,10 @@ public class UserLoginView {
    
     public void login()
     {
+    	DataAccessAPI api=new DataAccessAPI();
         User user=null;
         if(!Validator.stringContains(username,"'"))
-        	user=Database.login(username,password);
+        	user=api.getUser(username, password.hashCode());
         if(user!=null)
         {
         	((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().setAttribute("user",user);

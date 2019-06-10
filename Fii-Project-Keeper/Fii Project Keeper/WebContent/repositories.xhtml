@@ -46,7 +46,7 @@ color:#343a40;
 
   <h:body >
   <f:metadata>
-  	<f:event type="preRenderView" listener="#{user.hasAccess(12)}"/>
+  	<f:event type="preRenderView" listener="#{security.isAuthenticated()}"/>
   </f:metadata>
     <!-- Navigation -->
     <ex:navBar/>
@@ -66,29 +66,26 @@ color:#343a40;
  <div class="card" style="margin:10px; text-align:center; background-color:#f7ff8a; " >
             <h3><h:outputText value="#{proiect.title}" /></h3>
             <div style="margin-left:10px;backgdound:#eaef0980; height:100%">
+            <p style="margin:0px"><h:outputText value="#{proiect.subject}" /></p>
               <table style="width:100%">
               	<tbody>
               		<tr>
               		<td style="text-align:left"><p>Deadline:</p></td>
               		<td>
               			<p style="margin:0px"><h:outputText value="#{proiect.data}" /></p>
-              			<p><h:outputText value="#{proiect.ora}" /></p>
-              		</td>
-              		</tr>
-              		<tr>
-              		<td style="text-align:left">
-              			<p>Incarcari Ramase</p>
-              		</td>
-              		<td>
-              			<h2>3</h2>
               		</td>
               		</tr>
               	</tbody>
               </table>
+              
              <!-- <p class="card-text">Incarca un proiect.</p>-->
             </div>
             <div class="card-footer" style="background-color:#ced5b5;">
-              <a href="##{repositoriesView.proiecte.indexOf(proiect)}" class="btn btn-primary">Open</a>
+              <!-- <a href="##{repositoriesView.proiecte.indexOf(proiect)}" class="btn btn-primary">Open</a> -->
+              <p:commandLink value="Logout" actionListener="#{repositoriesView.viewProject(repositoriesView.proiecte.indexOf(proiect))}"   />
+              
+              
+              
             </div>
             
           </div>
@@ -117,6 +114,7 @@ color:#343a40;
     <!-- Bootstrap core JavaScript -->
     <script src="mainStyle/vendor/jquery/jquery.min.js"></script>
     <script src="mainStyle/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+     
   </h:body>
 
 </html>

@@ -1,32 +1,36 @@
-package resources;
+package Model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
+import DataAccess.An;
+import DataAccess.DataAccessAPI;
+import DataAccess.Limbaj;
+import resources.Database;
+import resources.Proiect;
+import resources.Validator;
+
 @ManagedBean
 public class ProjectDTO {
 
+	private ArrayList<String> materii;
+	private List<Limbaj> limbaje;
+	private List<An> ani;
 	
 	private String materie;
-	private ArrayList<String> materii;
 	private String numeRepository;
+	private List<Limbaj> limbajeSelectate;
+	private List<An> aniSelectati;
 	private Date data;
-	private Date ora;
-	private ArrayList<String> audienta;
-	private String[] studentiSelectati;
-	private List<String> studenti;
-	private String limitat;
-	private int incarcariPermise;
 	private String detalii;
-	private ArrayList<String> limbaje;
-	private String[] limbajeSelectate;
 	
 	public String getMaterie() {
 		if(materie==null)
@@ -56,45 +60,6 @@ public class ProjectDTO {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	public Date getOra() {
-		return ora;
-	}
-	public void setOra(Date ora) {
-		this.ora = ora;
-	}
-	public ArrayList<String> getAudienta() {
-		return audienta;
-	}
-	public void setAudienta(ArrayList<String> audienta) {
-		this.audienta = audienta;
-	}
-	public String[] getStudentiSelectati() {
-		return studentiSelectati;
-	}
-	public void setStudentiSelectati(String[] studentiSelectati) {
-		this.studentiSelectati = studentiSelectati;
-	}
-	public List<String> getStudenti() {
-		return studenti;
-	}
-	public void setStudenti(List<String> studenti) {
-		this.studenti = studenti;
-	}
-	public String getLimitat() {
-		return limitat;
-	}
-	public void setLimitat(String limitat) {
-		this.limitat=limitat;
-	}
-	public int getIncarcariPermise() {
-		if(limitat.equalsIgnoreCase("true"))
-			return 0;
-		return incarcariPermise;
-	}
-	public void setIncarcariPermise(int incarcariPermise) {
-		if(isLimitat())
-			this.incarcariPermise = incarcariPermise;
-	}
 	public String getDetalii() {
 		if(detalii==null)
 			return"";
@@ -103,44 +68,38 @@ public class ProjectDTO {
 	public void setDetalii(String detalii) {
 		this.detalii = detalii;
 	}
-	public ArrayList<String> getLimbaje() {
+	public List<Limbaj> getLimbaje() {
 		return limbaje;
 	}
-	public void setLimbaje(ArrayList<String> limbaje) {
+	public void setLimbaje(List<Limbaj> limbaje) {
 		this.limbaje = limbaje;
 	}
-	public String[] getLimbajeSelectate() {
+	public List<Limbaj> getLimbajeSelectate() {
 		return limbajeSelectate;
 	}
-	public void setLimbajeSelectate(String[] limbajeSelectate) {
+	public void setLimbajeSelectate(List<Limbaj> limbajeSelectate) {
 		this.limbajeSelectate = limbajeSelectate;
 	}
-    public String getDeadlineDay()
+    public String getDeadlineDate()
     {
     if(data!=null)
     	return (new SimpleDateFormat("MM/dd/yyyy").format(data));
     return "";
     }
-    public String getDeadlineTime()
-    {
-    if(ora!=null)
-    	return (new SimpleDateFormat("HH:mm").format(ora));
-    return "00:00";
-    }
-    public String getYearCode()
-    {
-    	String yearCode="000";
-    	for(int i=0;i<audienta.size();i++)
-    	{
-    		if(audienta.get(i).equalsIgnoreCase("1"))
-    			yearCode="1"+yearCode.substring(1);
-    		if(audienta.get(i).equalsIgnoreCase("2"))
-    			yearCode=yearCode.substring(0,1)+"1"+yearCode.substring(2);
-    		if(audienta.get(i).equalsIgnoreCase("3"))
-    			yearCode=yearCode.substring(0,2)+"1";
-    	}
-    	return yearCode;
-    }
+    
+    public List<An> getAniSelectati() {
+		return aniSelectati;
+	}
+	public void setAniSelectati(ArrayList<An> aniSelectati) {
+		this.aniSelectati = aniSelectati;
+	}
+	
+	public List<An> getAni() {
+		return ani;
+	}
+	public void setAni(ArrayList<An> ani) {
+		this.ani = ani;
+	}
     
     @SuppressWarnings("deprecation")
 	private boolean isToday(Date date)
@@ -153,48 +112,46 @@ public class ProjectDTO {
 	
 	void init()
 	{
+		DataAccessAPI api=new DataAccessAPI();
+		
 		materii=Database.getMaterii();
-		
-		audienta=new ArrayList<String>();
-		
-		studenti=Database.getNumeStudenti();
 		
 		data=null;
 		if(data!=null)
 		System.out.println("DATA:"+data);
-		ora=null;
-		limitat="false";
 		
-		limbaje=Database.getLimbaje();
+		limbaje=api.getLanguages();
+		
+		ani=api.getYears();
 	}
 	
 	public void display()
 	{
 		System.out.println("materie: "+materie);
 		System.out.println("numeRepository: "+numeRepository);
+		System.out.println("Deadline: "+getDeadlineDate());
 		//DateFormat dataFormat = new SimpleDateFormat("MM/dd/yyyy");			//"MM/dd/yyyy HH:mm:ss"
 		//DateFormat oraFormat = new SimpleDateFormat("HH:mm");
 		//System.out.println("data:"+dataFormat.format(data));
 		//System.out.println("Ora :"+oraFormat.format(ora));
-		for(int i=0;i<audienta.size();i++)
-			System.out.println("audienta["+(i+1)+"]= "+audienta.get(i));
-		for(int i=0;i<studentiSelectati.length;i++)
-			System.out.println("Student: "+studentiSelectati[i]);
-		if(isLimitat())
-			System.out.println("Incarcari permise: "+incarcariPermise);
-		else
-			System.out.println("Incarcari nelimitate");
+		
+//		for(int i=0;i<studentiSelectati.length;i++)
+//			System.out.println("Student: "+studentiSelectati[i]);
+//		if(isLimitat())
+//			System.out.println("Incarcari permise: "+incarcariPermise);
+//		else
+//			System.out.println("Incarcari nelimitate");
+		
 		System.out.println("Details: "+detalii);
-		for(int i=0;i<limbajeSelectate.length;i++)
-			System.out.println("Limbaj folosit: "+limbajeSelectate[i]);
+		
+		System.out.println("Limbaje selectate");
+		for(Limbaj limbaj:limbajeSelectate)
+			System.out.println("ID: "+limbaj.getId()+"Denumire: "+limbaj.getDenumire());
+		System.out.println("ani selectati");
+		for(An an:aniSelectati)
+			System.out.println("ID: "+an.getId()+"Denumire: "+an.getDenumire());
 	}
 	
-	boolean isLimitat()
-	{
-		if(limitat!=null)
-			return limitat.equalsIgnoreCase("true");
-		return false;
-	}
 	
 	public ProjectDTO()
 	{
@@ -247,29 +204,11 @@ public class ProjectDTO {
 		
 		
 		
-		if(((audienta.isEmpty()))&&(studentiSelectati.length==0))
-		{
-			valid=false;
-			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n No students selected",""));
-		}
-		
-		if((isLimitat())&&((incarcariPermise<1)||(incarcariPermise>1000)))
-		{
-			valid=false;
-			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n \"Numar incarcari permise\" is invalid",""));
-		}
-		
 		
 		if((data!=null)&&(data.compareTo(new Date())<0)&&(!isToday(data)))
 		{
 			valid=false;
 			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n Invalid Date",""));
-		}
-		
-		if((ora==null)&&(ora!=null))
-		{
-			valid=false;
-			messages.add(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validation Failed \n Date is null",""));
 		}
 		
 		
@@ -292,16 +231,33 @@ public class ProjectDTO {
 		return valid;
 	}
 	
+	private Proiect getAsProject()
+	{
+		Proiect project=new Proiect();
+		project.setActiv(true);
+		project.setAni(aniSelectati);
+		project.setData(getDeadlineDate());
+		project.setDetalii(detalii);
+		project.setLimbaje(limbajeSelectate);
+		project.setMaterie(materie);
+		project.setNumeRepository(numeRepository);
+		
+		return project;
+	}
+	
 	public void submit()
 	{	
 		if(objectIsValid())
-			if(Database.addProject(new Proiect(materie,numeRepository,getDeadlineDay(),getDeadlineTime(),getYearCode(),studentiSelectati,isLimitat(),incarcariPermise,detalii,limbajeSelectate)))
+		{
+			DataAccessAPI api=new DataAccessAPI();
+			if(api.addProject(getAsProject()))
 				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Repository-ul a fost creat cu succes! ",""));
 			else
 				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Repository-ul nu a putut fi salvat",""));
-		else
-			System.out.println("object not valid");
+		}
 	}
+	
+	
 	
 	
 	

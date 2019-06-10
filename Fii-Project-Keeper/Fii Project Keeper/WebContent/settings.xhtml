@@ -46,7 +46,7 @@ color:#343a40;
 
   <h:body >
   <f:metadata>
-  	<f:event type="preRenderView" listener="#{user.hasAccess(2)}"/>
+  	<f:event type="preRenderView" listener="#{security.isAuthenticated()}"/>
   </f:metadata>
     <!-- Navigation -->
     <ex:navBar/>

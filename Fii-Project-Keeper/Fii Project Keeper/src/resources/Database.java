@@ -2,6 +2,7 @@ package resources;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,7 +23,7 @@ public class Database {
 	{
 	}
 	
-	static void makeConnection()
+	public static void makeConnection()
 	{
 		if(connection==null)
 			createConnection();
@@ -230,84 +231,105 @@ public class Database {
 	    return true;
 	}
 	
-	public static boolean addProject(Proiect proiect)
+//	public static boolean addProject(Proiect proiect)
+//	{
+//		Statement stmt;
+//		int projectId;
+//		
+//		makeConnection();
+//		int tranzactie=startTransaction();
+//		try {
+//			
+//			stmt = connection.createStatement();
+//	       if(stmt.execute("insert into proiecte (materie,nume_proiect,deadline,ora,cod_ani,limita_uploaduri,detalii,tranzactie) values('"+proiect.getMaterie()+"','"+proiect.getNumeRepository()+"','"+proiect.getData()+"','"+proiect.getOra()+"','"+proiect.getAudienta()+"',"+proiect.getIncarcariPermise()+",'"+proiect.getDetalii()+"',"+tranzactie+")"))
+//	       {
+//	    	   System.out.println("Failed to add the project");
+//	    	   rollback(tranzactie);
+//	        	return false;
+//	       }
+//	       
+//	       projectId=getProjectIdByTransaction(tranzactie);
+//	       if(projectId==-1)
+//	       {
+//	    	   System.out.println("Could not find the project id");
+//	    	   rollback(tranzactie);
+//	    	   return false;
+//	       }
+//	        if(proiect.getStudentiSelectati().length>0)
+//	        {
+//		        if(!addSelectedStudents(projectId,tranzactie,proiect.getStudentiSelectati()))
+//		        {
+//		        	System.out.println("Failed to add the selected students");
+//		        	rollback(tranzactie);
+//		        }
+//		        
+//	        }
+//	        
+//	        if(proiect.getLimbajeSelectate().length>0)
+//	        {
+//	        	
+//	    	    if(!addSelectedLanguages(projectId,tranzactie,proiect.getLimbajeSelectate()))
+//	    	    {
+//	    	    	System.out.println("Failed to add the selected languages");
+//	    	    	rollback(tranzactie);
+//	    	    	return false;
+//	    	    }
+//	        }
+//	        commit(tranzactie);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			rollback(tranzactie);
+//			return false;
+//		}
+//		
+//		
+//		return true;
+//	}
+	
+	
+	
+	public static ResultSet executeQuery(String query)
+	{	
+		Statement stmt;
+		ResultSet rs=null;
+		try {
+			stmt = connection.createStatement();
+	        rs=stmt.executeQuery(query);
+	        
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	public static boolean executeCommand(String command)
 	{
 		Statement stmt;
-		int projectId;
-		
-		makeConnection();
-		int tranzactie=startTransaction();
 		try {
 			
 			stmt = connection.createStatement();
-	       if(stmt.execute("insert into proiecte (materie,nume_proiect,deadline,ora,cod_ani,limita_uploaduri,detalii,tranzactie) values('"+proiect.getMaterie()+"','"+proiect.getNumeRepository()+"','"+proiect.getData()+"','"+proiect.getOra()+"','"+proiect.getAudienta()+"',"+proiect.getIncarcariPermise()+",'"+proiect.getDetalii()+"',"+tranzactie+")"))
-	       {
-	    	   System.out.println("Failed to add the project");
-	    	   rollback(tranzactie);
-	        	return false;
-	       }
-	       
-	       projectId=getProjectIdByTransaction(tranzactie);
-	       if(projectId==-1)
-	       {
-	    	   System.out.println("Could not find the project id");
-	    	   rollback(tranzactie);
-	    	   return false;
-	       }
-	        if(proiect.getStudentiSelectati().length>0)
-	        {
-		        if(!addSelectedStudents(projectId,tranzactie,proiect.getStudentiSelectati()))
-		        {
-		        	System.out.println("Failed to add the selected students");
-		        	rollback(tranzactie);
-		        }
-		        
-	        }
+			stmt.closeOnCompletion();
+			
+	        return stmt.execute(command);
 	        
-	        if(proiect.getLimbajeSelectate().length>0)
-	        {
-	        	
-	    	    if(!addSelectedLanguages(projectId,tranzactie,proiect.getLimbajeSelectate()))
-	    	    {
-	    	    	System.out.println("Failed to add the selected languages");
-	    	    	rollback(tranzactie);
-	    	    	return false;
-	    	    }
-	        }
-	        commit(tranzactie);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			rollback(tranzactie);
-			return false;
 		}
-		
-		
-		return true;
+		return false;
 	}
 	
-	public static ArrayList<RepositoryDTO> getProjects(String name,String year)
+	public static PreparedStatement getPreparedStatement(String query)
 	{
-		Statement stmt;
-		ArrayList<RepositoryDTO> proiecte=new ArrayList<RepositoryDTO>();
 		try {
-			stmt = connection.createStatement();
-			//select * from proiecte join permisiuni on id_proiect=id where ((((student='victor.pantelemon')or (substring(cod_ani,3)='3'))  and (TO_DATE(deadline,'MM/DD/YYYY') > current_date)) or (activ=true)) and proiecte.tranzactie=0;
-
-	        ResultSet rs=stmt.executeQuery("select * from proiecte join permisiuni on id_proiect=id where ((((student='"+name+"')or (substring(cod_ani,"+year+")='1'))  and ((TO_DATE(deadline,'MM/DD/YYYY') > current_date) or deadline='')) or (activ=true)) and proiecte.tranzactie=0");
-	        while(rs.next())
-	        { 
-	        	//System.out.println(rs.getInt(1)); //id
-	        	//proiecte.add(rs.getString(1));
-	        	proiecte.add(new RepositoryDTO(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getInt(7),rs.getString(8)));
-	        	//proiecte.add(new Proiect(rs.getString(2),rs.getString(3),rs.getString(4)),rs.getString(5),rs.getString(6),rs.getInt(7),rs.getString(8),rs.getBoolean(9));
-	        	//Proiect(String materie,String numeRepository,String data,String ora, String audienta,String[] studentiSelectati,boolean limitat,int incarcariPermise,String detalii,String[] limbajeSelectate)
-	        }
-	        return proiecte;
+			return connection.prepareStatement(query);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return null;
 	}
 	

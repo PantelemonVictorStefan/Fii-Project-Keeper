@@ -3,20 +3,37 @@ package resources;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.event.ValueChangeEvent;
+
+import org.primefaces.context.RequestContext;
+
+import DataAccess.DataAccessAPI;
 
 @ManagedBean
+@SessionScoped
 public class RepositoriesView {
 
 
-	List<RepositoryDTO> proiecte;
+	List<RepositoryCardView> proiecte;
+	private Proiect selectedProject;
+
+	public Proiect getSelectedProject() {
+		return selectedProject;
+	}
+
+	public void setSelectedProject(Proiect selectedProject) {
+		this.selectedProject = selectedProject;
+	}
 	
 
-	public List<RepositoryDTO> getProiecte() {
+	public List<RepositoryCardView> getProiecte() {
 		return proiecte;
 	}
 
-	public void setProiecte(List<RepositoryDTO> proiecte) {
+	public void setProiecte(List<RepositoryCardView> proiecte) {
 		this.proiecte = proiecte;
 	}
 	
@@ -27,17 +44,27 @@ public class RepositoriesView {
 	
 	private void init()
 	{
-		/*proiecte=new ArrayList<RepositoryDTO>();
-		proiecte.add(new RepositoryDTO(1,"Java","Laborator 3","12/03/2020","00:00",0));
-		proiecte.add(new RepositoryDTO(2,"Java","Laborator 5","12/03/2020","",0));
-		proiecte.add(new RepositoryDTO(3,"Java","Laborator 2","12/03/2020","",2));
-		proiecte.add(new RepositoryDTO(1,"Java","Laborator 3","12/03/2020","00:00",0));
-		proiecte.add(new RepositoryDTO(2,"Java","Laborator 5","12/03/2020","",0));
-		proiecte.add(new RepositoryDTO(3,"Java","Laborator 2","12/03/2020","",2));*/
 		User user;
 		user=Security.getUser();
-		proiecte=Database.getProjects(user.getUsername(), user.getYear());
-		//Proiect(int id,String materie,String numeRepository,String data,String ora,int incarcariPermise)
+		DataAccessAPI api=new DataAccessAPI();
+		proiecte=api.getRepositories(user.getYear());
+		
+		
 		
 	}
+	public void viewProject(int index)
+	{
+		
+			DataAccessAPI api=new DataAccessAPI();
+			
+			selectedProject=api.getProjectById(proiecte.get(index).getId());
+			if(selectedProject==null)
+				System.out.println("object is null");
+			
+			Security.redirect("repository.xhtml");
+	}
+
+
+	
+	
 }

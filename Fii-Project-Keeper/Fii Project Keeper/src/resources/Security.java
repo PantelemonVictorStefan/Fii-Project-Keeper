@@ -8,15 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 @ManagedBean()
 public class Security {
 
-	public static boolean isStudent()
+	
+	public static boolean checkRole(String role)
 	{
-		return("Student".equalsIgnoreCase((String) ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("type")));
+		User user=getUser();
+		if(user==null)
+		{
+			System.out.println("user is null");
+			return false;
+		}
+		return user.getType().equals(role);
 	}
 	
-	public static boolean isProfessor()
-	{
-		return("Profesor".equalsIgnoreCase((String) ((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("type")));
-	}
 	
 	public static void redirect(String page)
 	{
@@ -30,38 +33,20 @@ public class Security {
 	
 	public static boolean isAuthenticated()
 	{
-			if(!(isStudent()||(isProfessor())))
+			if(!(checkRole("Student")||checkRole("Profesor")))
 				{
-				System.out.println("REDIRECTING");
+				//System.out.println("REDIRECTING");
 				redirect("login.xhtml");
 				return false;
 				}
 			return true;
 	}
 	
-	public static void studentPage()
+	public static void authorize(String role)
 	{
-		isAuthenticated();
-		if(isProfessor())
-			mainPage();
-	}
-	
-	public static void professorPage()
-	{
-		
-		isAuthenticated();
-		if(isStudent())
-			mainPage();
-	}
-	
-	public static void mainPage()
-	{
-		redirect("home.xhtml");
-		/*if(isAuthenticated())
-			if(isStudent())
-					redirect("home.xhtml");
-				else
-					redirect("main.xhtml");*/
+		System.out.println("authorize "+role);
+		if(!checkRole(role))
+			redirect("login.xhtml");
 	}
 	
 	public static void logout()

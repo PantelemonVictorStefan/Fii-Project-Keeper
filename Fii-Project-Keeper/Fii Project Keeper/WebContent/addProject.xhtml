@@ -32,6 +32,9 @@ top: 10%;
   </h:head>
 
   <h:body style="background:#E1E1E1; padding-top:65px; ">
+  <f:metadata>
+  	<f:event type="preRenderView" listener="#{security.authorize('Profesor')}"/>
+  </f:metadata>
 
     <!-- Navigation --> 
     <ex:navBar/>
@@ -83,55 +86,24 @@ top: 10%;
 					        </td>
 					        
 					        <td>
-					        	<div style=" height:175px; width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
+					        	<div style=" height:100px; width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
 					        
 							        <table cellpadding="5" width="100%" style="margin-left: 10%">
 								        <tbody>
 									        <tr>
 									        	<td width="37%">
-									         		<p:outputLabel value="Alege anul" />
+									         		<p:outputLabel value="Alege anii" />
 									         	</td>
 									         
 											     <td>
-											     	<p:selectManyButton value="#{projectDTO.audienta}">
-											            <f:selectItem itemLabel="An1" itemValue="1" />
-											            <f:selectItem itemLabel="An2" itemValue="2" />
-											            <f:selectItem itemLabel="An3" itemValue="3" />
-											        </p:selectManyButton>
+											        <p:selectCheckboxMenu id="Ani" value="#{projectDTO.aniSelectati}" label="ani" multiple="true" 
+								                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+								            		<f:selectItems value="#{projectDTO.ani}" />
+								        			</p:selectCheckboxMenu>
 											     </td>
 										     
 										    </tr>
 										    
-										    <tr>   
-										    	<td>
-										    		<p:outputLabel value="Sau" />
-										    	</td>
-									        
-										    	<td>
-										       		<p:selectCheckboxMenu id="studenti" value="#{projectDTO.studentiSelectati}" label="Adauga studenti" multiple="true"
-											                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-											            <f:selectItems value="#{projectDTO.studenti}" />
-											    	</p:selectCheckboxMenu>
-												</td>
-										    </tr>
-										    
-										    <tr>
-										    	<td>
-										    		<p:outputLabel value="Numar incarcari permise:" />
-										    	</td>
-										    	
-											    <td>
-											    	<h:panelGrid columns="2" cellpadding="5" style="margin: 0">
-												        <p:selectOneRadio value="#{projectDTO.limitat}">
-													    	<f:selectItem itemValue="false" itemLabel="Nelimitat" />
-													    	<f:selectItem itemValue="true" itemLabel="Limitat" />
-														</p:selectOneRadio>
-														<p:spinner id="basic" value="#{projectDTO.incarcariPermise}" size="1" >
-														<f:validateLongRange minimum="0" maximum="1000"/>
-														</p:spinner>
-													</h:panelGrid>
-												</td>
-											</tr>
 										</tbody>
 							        </table>
 							        
@@ -158,16 +130,6 @@ top: 10%;
 										        	<p:calendar id="data" value="#{projectDTO.data}" mindate="#{systemConfiguration.getDate()}" editable="false"/>
 										        </td>
 										    </tr>
-										    
-										    <tr>
-										        <td >
-										        	<p:outputLabel for="ora" value="Ora:" />
-										        </td>
-										        
-										        <td>
-										        	<p:calendar id="ora" value="#{projectDTO.ora}" pattern="HH:mm" timeOnly="true" editable="false"  />
-										        </td>
-										   	</tr>
 									   	</tbody>
 							        </table>
 						        </div>
