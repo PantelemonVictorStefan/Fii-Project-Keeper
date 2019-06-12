@@ -55,19 +55,24 @@ color:#343a40;
       <div class="jumbotron my-4" >
       <p><h:outputText value="#{repositoriesView.selectedProject.materie}" /></p>
       <p><h:outputText value="#{repositoriesView.selectedProject.numeRepository}" /></p>
+      <p><h:outputText value="#{repositoriesView.selectedProject.data}" /></p>
+      <p><h:outputText value="#{repositoriesView.selectedProject.detalii}" /></p>
+      <p>Limbaje:</p>
+      <ul>
+      <p:dataGrid var="limbaj" value="#{repositoriesView.selectedProject.limbaje}" columns="1" layout="grid" id="limbaje" styleClass="ui-datagrid-no-border" >
+      <li><p><h:outputText value="#{limbaj.denumire}" /></p></li>
+      </p:dataGrid>
+      </ul>
+      
+      <p>Ani:</p>
+      <ul>
+      <p:dataGrid var="an" value="#{repositoriesView.selectedProject.ani}" columns="1" layout="grid" id="ani" styleClass="ui-datagrid-no-border" >
+      <li><p><h:outputText value="#{an.denumire}" /></p></li>
+      </p:dataGrid>
+      </ul>
       
       
       </div>
-
-
-        
- 
-        
- 
-
-
-      <!-- /.row -->
-
     </div>
     <!-- /.container -->
     <!-- Footer -->

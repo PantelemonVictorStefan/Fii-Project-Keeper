@@ -43,7 +43,7 @@ top: 10%;
 	<div class="container" >
 
       <center>
-      	<p:outputLabel  value="Incarca un proiect "  style="font-size:50px"/>
+      	<p:outputLabel  value="#{msg['load_a_project']}" style="font-size:50px"/>
       </center>
 
       <!-- Page Features -->
@@ -55,23 +55,23 @@ top: 10%;
 			        <tbody>
 				        <tr>
 				        	<td>
-				        		<p:outputLabel  value="Informatii principale "  style="font-size:25px"/>
+				        		<p:outputLabel  value="#{msg['main_information']}"  style="font-size:25px"/>
 				        	</td>
 				        	<td>
 						        <div style=" height:150px; width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
 							        <h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%" >
-							        	<p:outputLabel for="materie" value="Materie: " />
+							        	<p:outputLabel for="materie" value="#{msg['subject']}" />
 									    <p:selectOneMenu id="materie" value="#{projectDTO.materie}" effect="fold" editable="false" required="true" >
-									    	<f:selectItem itemLabel="Alege materia" itemValue="" />
+									    	<f:selectItem itemLabel="#{msg['choose_subject']}" itemValue="" />
 									        <f:selectItems value="#{projectDTO.materii}" />
 									    </p:selectOneMenu>
 									     
-								        <p:outputLabel for="numeRepository" value="Nume repository: " />
+								        <p:outputLabel for="numeRepository" value="#{msg['repository_name']}" />
 								        <p:inputText id="numeRepository" value="#{projectDTO.numeRepository}" size="24" required="true" maxlength="30">
 								        	<f:validateRegex pattern="((?!')(?!\/)(?!\\)(?!:)(?!\*)(?!\?)(?!\&#34;)(?!&#60;)(?!&#62;)(?!\|).)*$"></f:validateRegex>
 								        </p:inputText>
 								        <p></p>
-								        <p:selectCheckboxMenu id="Limbaje" value="#{projectDTO.limbajeSelectate}" label="Limbaje folosite" multiple="true" 
+								        <p:selectCheckboxMenu id="Limbaje" value="#{projectDTO.limbajeSelectate}" label="#{msg['used_languages']}" multiple="true" 
 								                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
 								            <f:selectItems value="#{projectDTO.limbaje}" />
 								        </p:selectCheckboxMenu>
@@ -82,7 +82,7 @@ top: 10%;
 					        
 				        <tr>
 					        <td>
-					        	<p:outputLabel  value="Audienta* "  style="font-size:25px"/>
+					        	<p:outputLabel  value="#{msg['audience']}*"  style="font-size:25px"/>
 					        </td>
 					        
 					        <td>
@@ -92,11 +92,11 @@ top: 10%;
 								        <tbody>
 									        <tr>
 									        	<td width="37%">
-									         		<p:outputLabel value="Alege anii" />
+									         		<p:outputLabel value="#{msg['choose_years']}" />
 									         	</td>
 									         
 											     <td>
-											        <p:selectCheckboxMenu id="Ani" value="#{projectDTO.aniSelectati}" label="ani" multiple="true" 
+											        <p:selectCheckboxMenu id="Ani" value="#{projectDTO.aniSelectati}" label="#{msg['years']}" multiple="true" 
 								                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
 								            		<f:selectItems value="#{projectDTO.ani}" />
 								        			</p:selectCheckboxMenu>
@@ -114,7 +114,7 @@ top: 10%;
 					   	
 					    <tr>
 					        <td>
-					        	<p:outputLabel  value="Termen incarcare"  style="font-size:25px"/>
+					        	<p:outputLabel  value="#{msg['deadline']}"  style="font-size:25px"/>
 					        </td>
 					        
 					        <td>
@@ -123,7 +123,7 @@ top: 10%;
 								        <tbody>
 									        <tr>
 									        	<td width="37%">
-									        		<p:outputLabel for="data" value="Data:" />
+									        		<p:outputLabel for="data" value="#{msg['date']}:" />
 									        	</td>
 									        	
 										        <td>
@@ -138,7 +138,7 @@ top: 10%;
 					        
 					    <tr>
 					        <td>
-					        	<p:outputLabel  value="Alte informatii"  style="font-size:25px"/>
+					        	<p:outputLabel  value="#{msg['details']}"  style="font-size:25px"/>
 					        </td>
 					        
 					        <td>
@@ -170,7 +170,7 @@ top: 10%;
 					        
 					        <td>
 					        	<div style=" width:150%;text-align:center;">
-					        		<p:commandButton value="Submit"  icon="ui-icon-check" actionListener="#{projectDTO.submit}" update="panel" />
+					        		<p:commandButton value="#{msg['submit']}"  icon="ui-icon-check" actionListener="#{projectDTO.submit}" update="panel" />
 					        	</div>
 					        </td>
 					    </tr>

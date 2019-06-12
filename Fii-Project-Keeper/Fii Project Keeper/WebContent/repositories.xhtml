@@ -40,6 +40,18 @@ color:#343a40;
 .ui-grid-row {
     margin-bottom:10px;
 }
+
+
+
+/* .card:hover .card-footer {
+transition: margin-top ease 0.5s;
+margin-top:-10px;
+
+} */
+
+dt { float: left; clear: left; width: 6em; font-weight: bold; }
+dd { float: left; }
+
 </style>
 
   </h:head>
@@ -59,36 +71,24 @@ color:#343a40;
       
       <p:dataGrid var="proiect" value="#{repositoriesView.proiecte}" columns="3" layout="grid" id="proiecte" styleClass="ui-datagrid-no-border" >
  
-        
- 
-        
- 
- <div class="card" style="margin:10px; text-align:center; background-color:#f7ff8a; " >
-            <h3><h:outputText value="#{proiect.title}" /></h3>
-            <div style="margin-left:10px;backgdound:#eaef0980; height:100%">
-            <p style="margin:0px"><h:outputText value="#{proiect.subject}" /></p>
-              <table style="width:100%">
-              	<tbody>
-              		<tr>
-              		<td style="text-align:left"><p>Deadline:</p></td>
-              		<td>
-              			<p style="margin:0px"><h:outputText value="#{proiect.data}" /></p>
-              		</td>
-              		</tr>
-              	</tbody>
-              </table>
-              
-             <!-- <p class="card-text">Incarca un proiect.</p>-->
-            </div>
-            <div class="card-footer" style="background-color:#ced5b5;">
-              <!-- <a href="##{repositoriesView.proiecte.indexOf(proiect)}" class="btn btn-primary">Open</a> -->
-              <p:commandLink value="Logout" actionListener="#{repositoriesView.viewProject(repositoriesView.proiecte.indexOf(proiect))}"   />
-              
-              
-              
-            </div>
+ 			<div class="card" style="margin:10px; text-align:center; background-color:#0255ff1a; " >
+	            <h3><h:outputText value="#{proiect.title}" /></h3>
+	            <div style="margin-left:10px;backgdound:#eaef0980; height:100%;">
+		            <dl>
+					  <dt>Materie</dt>
+					  <dd><h:outputText value="#{proiect.subject}" /></dd>
+					  <dt>Deadline</dt>
+					  <dd><h:outputText value="#{proiect.data}" /></dd>
+					</dl>
+	            </div>
+	            
+	            <div class="card-footer trg" style="background-color:#007bff75;">
+	              <!-- <a href="##{repositoriesView.proiecte.indexOf(proiect)}" class="btn btn-primary">Open</a> -->
+	              <p:commandLink value="Open" actionListener="#{repositoriesView.viewProject(repositoriesView.proiecte.indexOf(proiect))}"  />
+	              
+	            </div>
             
-          </div>
+          	</div>
         
  
     </p:dataGrid>

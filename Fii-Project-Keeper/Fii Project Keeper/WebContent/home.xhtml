@@ -40,7 +40,7 @@ xmlns="http://www.w3.org/1999/xhtml"
 
       <!-- Jumbotron Header -->
       <header class="jumbotron my-4">
-        <h1 class="display-3">Bine ai venit, #{user.firstName}!</h1>
+        <h1 class="display-3"><h:outputText value = "#{msg['welcome']}" />, #{user.firstName}!</h1>
        
       </header>
       <!-- Page Features -->
@@ -51,11 +51,10 @@ xmlns="http://www.w3.org/1999/xhtml"
 	          <div class="card" >
 	            <img class="card-img-top" src="mainStyle/icons/upload.png" alt=""/>
 	            <div class="card-body">
-	              <h4 class="card-title">Incarca un proiect.</h4>
-	             <!-- <p class="card-text">Incarca un proiect.</p>-->
+	              <h4 class="card-title"><h:outputText value = "#{msg['load_a_project']}" />.</h4>
 	            </div>
 	            <div class="card-footer">
-	              <a href="repositories.xhtml" class="btn btn-primary">Upload</a>
+	              <a href="repositories.xhtml" class="btn btn-primary"><h:outputText value = "#{msg['upload']}" /></a>
 	            </div>
 	          </div>
 	        </div>
@@ -69,11 +68,11 @@ xmlns="http://www.w3.org/1999/xhtml"
 	          <div class="card">
 	            <img class="card-img-top" src="mainStyle/icons/upload.png" alt=""/>
 	            <div class="card-body">
-	              <h4 class="card-title">Incarca un proiect.</h4>
+	              <h4 class="card-title"><h:outputText value = "#{msg['load_a_project']}" />.</h4>
 	             <!-- <p class="card-text">Incarca un proiect.</p>-->
 	            </div>
 	            <div class="card-footer">
-	              <a href="repositories.xhtml" class="btn btn-primary">Upload</a>
+	              <a href="repositories.xhtml" class="btn btn-primary"><h:outputText value = "#{msg['upload']}" /></a>
 	            </div>
 	          </div>
 	        </div>
@@ -82,11 +81,11 @@ xmlns="http://www.w3.org/1999/xhtml"
 	          <div class="card">
 	            <img class="card-img-top" src="mainStyle/icons/download.png" alt=""/>
 	            <div class="card-body">
-	              <h4 class="card-title">Descarca un proiect.</h4>
+	              <h4 class="card-title"><h:outputText value = "#{msg['download_a_project']}" />.</h4>
 	             <!-- <p class="card-text">Incarca un proiect.</p>-->
 	             </div>
 	            <div class="card-footer">
-	              <a href="#" class="btn btn-primary">Download</a>
+	              <a href="#" class="btn btn-primary"><h:outputText value = "#{msg['download']}" /></a>
 	            </div>
 	          </div>
 	        </div>
@@ -95,11 +94,11 @@ xmlns="http://www.w3.org/1999/xhtml"
 	         	<div class="card">
 		            <img class="card-img-top" src="mainStyle/icons/setari.png" alt=""/>
 		            <div class="card-body">
-		              <h4 class="card-title">Setari</h4>
+		              <h4 class="card-title"><h:outputText value = "#{msg['settings']}" /></h4>
 		             <!-- <p class="card-text">Incarca un proiect.</p>-->
 		            </div>
 		            <div class="card-footer">
-		              <a href="settings.xhtml" class="btn btn-primary">Settings</a>
+		              <a href="settings.xhtml" class="btn btn-primary"><h:outputText value = "#{msg['settings']}" /></a>
 		            </div>
 	        	</div>
 	        </div>
@@ -108,11 +107,11 @@ xmlns="http://www.w3.org/1999/xhtml"
 	          <div class="card">
 	            <img class="card-img-top" src="mainStyle/icons/antiplagiere.png" alt=""/>
 	            <div class="card-body">
-	              <h4 class="card-title">Antiplagiator</h4>
+	              <h4 class="card-title"><h:outputText value = "#{msg['anticheat']}" /></h4>
 	             <!-- <p class="card-text">Incarca un proiect.</p>-->
 	             </div>
 	            <div class="card-footer">
-	              <a href="#" class="btn btn-primary">Compare</a>
+	              <a href="#" class="btn btn-primary"><h:outputText value = "#{msg['compare']}" /></a>
 	            </div>
 	          </div>
 	        </div>

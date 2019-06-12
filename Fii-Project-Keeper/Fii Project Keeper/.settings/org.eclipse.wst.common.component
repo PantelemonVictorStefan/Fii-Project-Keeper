@@ -2,6 +2,7 @@
     <wb-module deploy-name="Fii Project Keeper">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <property name="context-root" value="Fii_Project_Keeper"/>
         <property name="java-output-path" value="/Fii Project Keeper/build/classes"/>
     </wb-module>

@@ -67,6 +67,56 @@ public class DataAccessAPI {
 		return languages;
 	}
 	
+	public List<Limbaj> getLanguagesOfProject(int projectId)
+	{
+		List<Limbaj>languages=new LinkedList<Limbaj>();
+		
+		
+		PreparedStatement prepStmt = Database.getPreparedStatement("select * from programminglanguages inner join repositories_programminglanguages on programminglanguages.id=repositories_programminglanguages.language_id where repository_id=?");
+		try {
+			prepStmt.setInt(1, projectId);
+			ResultSet rs=prepStmt.executeQuery();
+			while(rs.next())
+			{
+				Limbaj language=new Limbaj();
+				language.setId(rs.getInt(1));
+				language.setDenumire(rs.getString(2));
+				
+				languages.add(language);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return languages;
+	}
+	
+	public List<An> getYearsOfProject(int projectId)
+	{
+		List<An>ani=new LinkedList<An>();
+		
+		PreparedStatement prepStmt = Database.getPreparedStatement("select * from years inner join repositories_years on years.id=repositories_years.year_id where repository_id=?");
+		
+		try {
+			prepStmt.setInt(1, projectId);
+			ResultSet rs=prepStmt.executeQuery();
+			while(rs.next())
+			{
+				An an=new An();
+				an.setId(rs.getInt(1));
+				an.setDenumire(rs.getString(2));
+				
+				ani.add(an);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return ani;
+	}
+	
 	public boolean addProject(Proiect project)
 	{
 		PreparedStatement prepStmt = Database.getPreparedStatement("insert into Repositories(subject,project_name,deadline,details,active) values(?,?,?,?,?)");
@@ -136,6 +186,9 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 				project.setData(rs.getString(4));
 				project.setDetalii(rs.getString(5));
 				project.setActiv(rs.getBoolean(6));
+				
+				project.setAni(getYearsOfProject(id));
+				project.setLimbaje(getLanguagesOfProject(id));
 				
 				return project;
 			}
