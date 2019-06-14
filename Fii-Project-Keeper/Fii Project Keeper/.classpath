@@ -14,5 +14,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/MasterCode/eclipse-workspace3/Fii Project Keeper/WebContent/WEB-INF/lib/primefaces-7.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

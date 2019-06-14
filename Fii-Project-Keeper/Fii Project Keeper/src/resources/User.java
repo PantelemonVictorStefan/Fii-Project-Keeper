@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 @ManagedBean
 public class User {
 
+	private int id;
 	private String username;
 	private String year;
     private String type;
@@ -72,6 +73,12 @@ public class User {
 		int tip=getTypeNumber();
 		if ((tip!=request)&&((tip!=0)&&(request!=12)))
 			Security.redirect("login.xhtml");
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

@@ -8,7 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
 
-import org.primefaces.context.RequestContext;
 
 import DataAccess.DataAccessAPI;
 
@@ -18,13 +17,13 @@ public class RepositoriesView {
 
 
 	List<RepositoryCardView> proiecte;
-	private Proiect selectedProject;
+	private Repository selectedProject;
 
-	public Proiect getSelectedProject() {
+	public Repository getSelectedProject() {
 		return selectedProject;
 	}
 
-	public void setSelectedProject(Proiect selectedProject) {
+	public void setSelectedProject(Repository selectedProject) {
 		this.selectedProject = selectedProject;
 	}
 	
@@ -57,7 +56,7 @@ public class RepositoriesView {
 		
 			DataAccessAPI api=new DataAccessAPI();
 			
-			selectedProject=api.getProjectById(proiecte.get(index).getId());
+			selectedProject=api.getRepositoryById(proiecte.get(index).getId());
 			if(selectedProject==null)
 				System.out.println("object is null");
 			

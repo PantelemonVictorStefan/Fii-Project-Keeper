@@ -1,5 +1,6 @@
 package DataAccess;
 
+import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,10 +8,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-
-
 import resources.Database;
-import resources.Proiect;
+import resources.Repository;
 import resources.RepositoryCardView;
 import resources.User;
 
@@ -67,14 +66,14 @@ public class DataAccessAPI {
 		return languages;
 	}
 	
-	public List<Limbaj> getLanguagesOfProject(int projectId)
+	public List<Limbaj> getLanguagesOfRepository(int repositoryId)
 	{
 		List<Limbaj>languages=new LinkedList<Limbaj>();
 		
 		
 		PreparedStatement prepStmt = Database.getPreparedStatement("select * from programminglanguages inner join repositories_programminglanguages on programminglanguages.id=repositories_programminglanguages.language_id where repository_id=?");
 		try {
-			prepStmt.setInt(1, projectId);
+			prepStmt.setInt(1, repositoryId);
 			ResultSet rs=prepStmt.executeQuery();
 			while(rs.next())
 			{
@@ -92,14 +91,14 @@ public class DataAccessAPI {
 		return languages;
 	}
 	
-	public List<An> getYearsOfProject(int projectId)
+	public List<An> getYearsOfRepository(int repositoryId)
 	{
 		List<An>ani=new LinkedList<An>();
 		
 		PreparedStatement prepStmt = Database.getPreparedStatement("select * from years inner join repositories_years on years.id=repositories_years.year_id where repository_id=?");
 		
 		try {
-			prepStmt.setInt(1, projectId);
+			prepStmt.setInt(1, repositoryId);
 			ResultSet rs=prepStmt.executeQuery();
 			while(rs.next())
 			{
@@ -117,21 +116,21 @@ public class DataAccessAPI {
 		return ani;
 	}
 	
-	public boolean addProject(Proiect project)
+	public boolean addRepository(Repository repository)
 	{
 		PreparedStatement prepStmt = Database.getPreparedStatement("insert into Repositories(subject,project_name,deadline,details,active) values(?,?,?,?,?)");
 		
 		
 		try {
-			prepStmt.setString(1, project.getMaterie());
-			prepStmt.setString(2, project.getNumeRepository());
-			prepStmt.setString(3, project.getData());
-			prepStmt.setString(4, project.getDetalii());
-			prepStmt.setBoolean(5, project.isActiv());
+			prepStmt.setString(1, repository.getMaterie());
+			prepStmt.setString(2, repository.getNumeRepository());
+			prepStmt.setString(3, repository.getData());
+			prepStmt.setString(4, repository.getDetalii());
+			prepStmt.setBoolean(5, repository.isActiv());
 			prepStmt.execute();
 			prepStmt.close();
 			
-			ResultSet rs=Database.executeQuery("select id from repositories where project_name='"+project.getNumeRepository()+"'");
+			ResultSet rs=Database.executeQuery("select id from repositories where project_name='"+repository.getNumeRepository()+"'");
 			
 			int id=0;
 			if(rs.next())
@@ -139,7 +138,7 @@ public class DataAccessAPI {
 			if(id==0)
 				return false;
 			
-			for(Limbaj limbaj:project.getLimbaje())
+			for(Limbaj limbaj:repository.getLimbaje())
 			{
 				prepStmt = Database.getPreparedStatement("insert into repositories_programminglanguages (repository_id,language_id) values(?,?)");
 				prepStmt.setInt(1, id);
@@ -148,7 +147,7 @@ public class DataAccessAPI {
 				prepStmt.execute();
 			}
 			
-			for(An an:project.getAni())
+			for(An an:repository.getAni())
 			{
 				prepStmt = Database.getPreparedStatement("insert into repositories_years (repository_id,year_id) values(?,?)");
 				prepStmt.setInt(1, id);
@@ -168,9 +167,9 @@ public class DataAccessAPI {
 	}
 	
 	
-	public Proiect getProjectById(int id)
+	public Repository getRepositoryById(int id)
 	{
-		Proiect project=new Proiect();
+		Repository repository=new Repository();
 PreparedStatement prepStmt = Database.getPreparedStatement("select * from repositories where id=? ");
 		
 		ResultSet rs;
@@ -180,17 +179,17 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 			
 			if(rs.next())
 			{
-				project.setId(rs.getInt(1));
-				project.setMaterie(rs.getString(2));
-				project.setNumeRepository(rs.getString(3));
-				project.setData(rs.getString(4));
-				project.setDetalii(rs.getString(5));
-				project.setActiv(rs.getBoolean(6));
+				repository.setId(rs.getInt(1));
+				repository.setMaterie(rs.getString(2));
+				repository.setNumeRepository(rs.getString(3));
+				repository.setData(rs.getString(4));
+				repository.setDetalii(rs.getString(5));
+				repository.setActiv(rs.getBoolean(6));
 				
-				project.setAni(getYearsOfProject(id));
-				project.setLimbaje(getLanguagesOfProject(id));
+				repository.setAni(getYearsOfRepository(id));
+				repository.setLimbaje(getLanguagesOfRepository(id));
 				
-				return project;
+				return repository;
 			}
 			
 		} catch (SQLException e) {
@@ -205,7 +204,7 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 	{
 		
 		User user=new User();
-		PreparedStatement prepStmt = Database.getPreparedStatement("select year,role from users where username=? and password=?");
+		PreparedStatement prepStmt = Database.getPreparedStatement("select id,year,role from users where username=? and password=?");
 		
 		ResultSet rs;
 		try {
@@ -217,8 +216,9 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 			{
 				user.setUsername(username);
 				user.setFirstName();
-				user.setYear(rs.getString(1));
-				user.setType(rs.getString(2));
+				user.setId(rs.getInt(1));
+				user.setYear(rs.getString(2));
+				user.setType(rs.getString(3));
 				
 				return user;
 			}
@@ -258,6 +258,105 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private int addFile(File file)
+	{
+		PreparedStatement prepStmt= Database.getPreparedStatement("insert into files(filename,size) values(?,?)");
+		ResultSet rs;
+		int id=-1;
+		
+		try {
+			prepStmt.setString(1, file.getFilename());
+			prepStmt.setLong(2, file.getSize());
+			if(prepStmt.executeUpdate()>0)
+			{
+				rs=prepStmt.getGeneratedKeys();
+				if(rs.next())
+				{
+					id=rs.getInt(1);
+				}
+				rs.close();
+				prepStmt.close();
+			}
+			else
+				throw new SQLException("Inserting file failed.");
+			
+			prepStmt= Database.getPreparedStatement("insert into data(file_id,byte) values(?,?)");
+			
+			prepStmt.setInt(1, id);
+			prepStmt.setBinaryStream(2, file.getFs(),file.getSize());
+			
+			if(prepStmt.executeUpdate()>0)
+			{
+				rs=prepStmt.getGeneratedKeys();
+				id=-1;
+				if(rs.next())
+				{
+					id=rs.getInt(1);
+				}
+				rs.close();
+				prepStmt.close();
+				
+				return id;
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return -1;
+	}
+	
+	public boolean addProject(Project project)
+	{
+		PreparedStatement prepStmt;
+		int presentationId=-1;
+		int dataId=-1;
+		
+		if(project.getPresentation()!=null)
+		{
+			presentationId=addFile(project.getPresentation());
+		}
+		
+		if(project.getData()!=null)
+		{
+			dataId=addFile(project.getPresentation());
+		}
+		
+		prepStmt = Database.getPreparedStatement("insert into projects(repo_id,user_id,description_id,presentation_id,data_id) values(?,?,?,?,?)");
+		
+		try {
+			prepStmt.setInt(1, project.getRepository().getId());
+			prepStmt.setInt(2, project.getUser().getId());
+			prepStmt.setString(3, project.getDescription());
+			if(presentationId!=-1)
+				prepStmt.setInt(4,presentationId);
+			else
+				prepStmt.setString(4, null);
+			if(dataId!=-1)
+				prepStmt.setInt(5,dataId);
+			else
+				prepStmt.setString(5, null);
+			
+			if(prepStmt.executeUpdate()>0)
+			{
+				prepStmt.close();
+				return true;
+			}
+			
+			prepStmt.close();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	
