@@ -1,4 +1,4 @@
-package resources;
+package View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,13 @@ import javax.faces.event.ValueChangeEvent;
 
 
 import DataAccess.DataAccessAPI;
+import resources.Repository;
+import resources.RepositoryCardView;
+import resources.Security;
+import resources.SessionObject;
+import resources.User;
 
 @ManagedBean
-@SessionScoped
 public class RepositoriesView {
 
 
@@ -38,15 +42,21 @@ public class RepositoriesView {
 	
 	public RepositoriesView()
 	{
+		System.out.println("new RepositoriesView");
 		init();
 	}
 	
 	private void init()
 	{
-		User user;
-		user=Security.getUser();
+		SessionObject session=Security.getSession();
 		DataAccessAPI api=new DataAccessAPI();
-		proiecte=api.getRepositories(user.getYear());
+		if(session.getUser().getType().equals("Student"))
+			proiecte=api.getRepositoriesByYear(session.getUser().getYear());
+		if(session.getUser().getType().equals("Profesor"))
+			proiecte=api.getRepositories();
+		
+		
+		
 		
 		
 		

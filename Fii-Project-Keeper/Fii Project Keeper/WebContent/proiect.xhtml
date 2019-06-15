@@ -5,8 +5,8 @@ xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-	xmlns:ex="http://tutorialspoint.com/facelets"
-	>
+    xmlns:ex="http://tutorialspoint.com/facelets"
+    >
 
   <h:head>
 
@@ -40,26 +40,11 @@ color:#343a40;
 .ui-grid-row {
     margin-bottom:10px;
 }
-
-
-
-/* .card:hover .card-footer {
-transition: margin-top ease 0.5s;
-margin-top:-10px;
-
-} */
-
-dt { float: left; clear: left; width: 6em; font-weight: bold; }
-dd { float: left; }
-
 </style>
 
   </h:head>
 
   <h:body >
-  <f:metadata>
-  	<f:event type="preRenderView" listener="#{security.isAuthenticated()}"/>
-  </f:metadata>
     <!-- Navigation -->
     <ex:navBar/>
 
@@ -67,37 +52,14 @@ dd { float: left; }
     <div class="container">
 
       <!-- Jumbotron Header -->
-      <div class="jumbotron my-4">
+      <div class="jumbotron my-4" >
       
-      <p:dataGrid var="proiect" value="#{repositoriesView.proiecte}" columns="3" layout="grid" id="proiecte" styleClass="ui-datagrid-no-border" >
- 
- 			<div class="card" style="margin:10px; text-align:center; background-color:#0255ff1a; " >
-	            <h3><h:outputText value="#{proiect.title}" /></h3>
-	            <div style="margin-left:10px;backgdound:#eaef0980; height:100%;">
-		            <dl>
-					  <dt>Materie</dt>
-					  <dd><h:outputText value="#{proiect.subject}" /></dd>
-					  <dt>Deadline</dt>
-					  <dd><h:outputText value="#{proiect.data}" /></dd>
-					</dl>
-	            </div>
-	            
-	            <div class="card-footer trg" style="background-color:#007bff75;">
-	              <!-- <a href="##{repositoriesView.proiecte.indexOf(proiect)}" class="btn btn-primary">Open</a> -->
-	              <p:commandLink value="Open" actionListener="#{repositoriesView.viewProject(repositoriesView.proiecte.indexOf(proiect))}"  />
-	             
-	              
-	            </div>
-            
-          	</div>
-        
- 
-    </p:dataGrid>
-      
+      <p><h:outputText value="#{sessionObject.selectedProject.userName}" /></p>
+      <p><h:outputText value="#{sessionObject.selectedProject.description}" /></p>
+     
       </div>
-
-      <!-- /.row -->
-
+      
+      <a href="upload.xhtml" class="btn btn-primary">Upload</a>
     </div>
     <!-- /.container -->
     <!-- Footer -->
@@ -115,7 +77,6 @@ dd { float: left; }
     <!-- Bootstrap core JavaScript -->
     <script src="mainStyle/vendor/jquery/jquery.min.js"></script>
     <script src="mainStyle/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-     
   </h:body>
 
 </html>

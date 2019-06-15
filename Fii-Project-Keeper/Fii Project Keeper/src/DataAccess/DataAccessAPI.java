@@ -231,7 +231,7 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 		return null;
 	}
 	
-	public List<RepositoryCardView> getRepositories(String year)
+	public List<RepositoryCardView> getRepositoriesByYear(String year)
 	{
 		List<RepositoryCardView> repositories=new LinkedList<RepositoryCardView>();
 		PreparedStatement prepStmt = Database.getPreparedStatement("select repositories.id,project_name,deadline,subject from repositories_years INNER JOIN repositories on repositories.id=repositories_years.repository_id INNER JOIN years on years.id=repositories_years.year_id where name=? and active=true");
@@ -240,6 +240,33 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 		try {
 			prepStmt.setString(1, year);
 			rs = prepStmt.executeQuery();
+			
+			while(rs.next())
+			{
+				RepositoryCardView repo=new RepositoryCardView();
+				
+				repo.setId(rs.getInt(1));
+				repo.setTitle(rs.getString(2));
+				repo.setData(rs.getString(3));
+				repo.setSubject(rs.getString(4));
+				
+				repositories.add(repo);
+			}
+			return repositories;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<RepositoryCardView> getRepositories()
+	{
+		List<RepositoryCardView> repositories=new LinkedList<RepositoryCardView>();
+		ResultSet rs;
+		try {
+			rs=Database.executeQuery("select repositories.id,project_name,deadline,subject from repositories_years INNER JOIN repositories on repositories.id=repositories_years.repository_id INNER JOIN years on years.id=repositories_years.year_id order by active");
 			
 			while(rs.next())
 			{
@@ -358,6 +385,16 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return false;
+	}
+	
+	public boolean deleteProject(Project project)
+	{
+		PreparedStatement prepStmt=Database.getPreparedStatement("delete from data where file_id=?");
+		/*
+		prepStmt.setInt(1, project.getPresentation().getId());
+		prepStmt.execute();*/
+		
 		return false;
 	}
 	
