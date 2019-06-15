@@ -1,5 +1,6 @@
 package DataAccess;
 
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -260,50 +261,51 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 		return null;
 	}
 	
-	private int addFile(File file)
+	private int addFile(_File file)
 	{
-		PreparedStatement prepStmt= Database.getPreparedStatement("insert into files(filename,size) values(?,?)");
+		PreparedStatement prepStmt= Database.getPreparedStatement("insert into files(filename,size) values(?,?) returning id");
 		ResultSet rs;
 		int id=-1;
 		
 		try {
 			prepStmt.setString(1, file.getFilename());
 			prepStmt.setLong(2, file.getSize());
-			if(prepStmt.executeUpdate()>0)
+			rs=prepStmt.executeQuery();
+			if(rs.next())
 			{
-				rs=prepStmt.getGeneratedKeys();
-				if(rs.next())
-				{
-					id=rs.getInt(1);
-				}
-				rs.close();
-				prepStmt.close();
+				id=rs.getInt(1);
 			}
 			else
 				throw new SQLException("Inserting file failed.");
+			rs.close();
+			prepStmt.close();
 			
-			prepStmt= Database.getPreparedStatement("insert into data(file_id,byte) values(?,?)");
 			
+			
+			prepStmt= Database.getPreparedStatement("insert into data(file_id,data) values(?,?)");
+			
+			
+			if(id==-1)
+				throw new SQLException("Invalid id.");
 			prepStmt.setInt(1, id);
 			prepStmt.setBinaryStream(2, file.getFs(),file.getSize());
 			
 			if(prepStmt.executeUpdate()>0)
 			{
-				rs=prepStmt.getGeneratedKeys();
-				id=-1;
-				if(rs.next())
-				{
-					id=rs.getInt(1);
-				}
-				rs.close();
+				
 				prepStmt.close();
+				file.getFs().close();
 				
 				return id;
-				
 			}
+			else
+				throw new SQLException("Saving byte object failed");
 			
 			
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -325,10 +327,10 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 		
 		if(project.getData()!=null)
 		{
-			dataId=addFile(project.getPresentation());
+			dataId=addFile(project.getData());
 		}
 		
-		prepStmt = Database.getPreparedStatement("insert into projects(repo_id,user_id,description_id,presentation_id,data_id) values(?,?,?,?,?)");
+		prepStmt = Database.getPreparedStatement("insert into projects(repository_id,user_id,description,presentation_id,data_id) values(?,?,?,?,?)");
 		
 		try {
 			prepStmt.setInt(1, project.getRepository().getId());

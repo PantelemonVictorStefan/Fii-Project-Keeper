@@ -1,13 +1,14 @@
 package DataAccess;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 
-public class File {
+public class _File {
 
 	private int id;
 	private String filename;
 	private Byte[]data;
-	private FileInputStream fs;
+	private InputStream fs;
 	private long size;
 	
 	public int getId() {
@@ -28,11 +29,11 @@ public class File {
 	public void setData(Byte[] data) {
 		this.data = data;
 	}
-	public FileInputStream getFs() {
+	public InputStream getFs() {
 		return fs;
 	}
-	public void setFs(FileInputStream fs) {
-		this.fs = fs;
+	public void setFs(InputStream inputStream) {
+		this.fs = inputStream;
 	}
 	public long getSize() {
 		return size;

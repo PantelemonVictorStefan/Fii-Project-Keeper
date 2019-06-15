@@ -40,6 +40,10 @@ color:#343a40;
 .ui-grid-row {
     margin-bottom:10px;
 }
+
+.ui-growl {
+    z-index: 9999 !important;
+}
 </style>
 
   </h:head>
@@ -55,16 +59,20 @@ color:#343a40;
       <div class="jumbotron my-4" >
 	      <div >
 	      
-						<h:form enctype="multipart/form-data">
+						<h:form enctype="multipart/form-data" id="panel">
+						
+						<p:growl id="growl"  life="10000" />
+						
 						<h:panelGrid id = "panel" columns = "1" >
-				      		<p:inputTextarea rows="4" cols="40"  maxlength="1000" counterTemplate="{0} characters remaining." autoResize="false" value="#{projectUploadView.description}">
+				      		<p:inputTextarea rows="4" cols="40"  maxlength="255" counterTemplate="{0} characters remaining." autoResize="false" value="#{projectUploadView.description}">
 					  			<f:validateRegex pattern="^((?!').)*$"></f:validateRegex>
 					  		</p:inputTextarea>
 					  		
-					        <h:inputFile value="#{projectUploadView.presentation}"/>
+					        <h:inputFile value="#{projectUploadView.presentation}" >
+					        </h:inputFile>
 					    	<h:inputFile value="#{projectUploadView.file}"/>
 				    	
-				    		<h:commandButton value="#{msg['submit']}"  icon="ui-icon-check" type="submit" action="#{projectUploadView.upload}" />
+				    		<h:commandButton value="#{msg['submit']}"  icon="ui-icon-check" type="submit" action="#{projectUploadView.upload}" update="panel"/>
 				    		</h:panelGrid>
 						</h:form>
 		</div>

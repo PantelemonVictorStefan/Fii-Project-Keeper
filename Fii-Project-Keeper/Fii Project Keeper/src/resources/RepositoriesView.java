@@ -55,8 +55,11 @@ public class RepositoriesView {
 	{
 		
 			DataAccessAPI api=new DataAccessAPI();
+			SessionObject session=Security.getSession();
+			
 			
 			selectedProject=api.getRepositoryById(proiecte.get(index).getId());
+			session.setSelectedRepository(selectedProject);
 			if(selectedProject==null)
 				System.out.println("object is null");
 			

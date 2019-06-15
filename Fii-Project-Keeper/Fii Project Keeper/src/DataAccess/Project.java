@@ -8,8 +8,8 @@ public class Project {
 	private User user;
 	private Repository repository;
 	private String description;
-	private File presentation;
-	private File data;
+	private _File presentation;
+	private _File data;
 	
 	public User getUser() {
 		return user;
@@ -29,16 +29,16 @@ public class Project {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public File getPresentation() {
+	public _File getPresentation() {
 		return presentation;
 	}
-	public void setPresentation(File presentation) {
+	public void setPresentation(_File presentation) {
 		this.presentation = presentation;
 	}
-	public File getData() {
+	public _File getData() {
 		return data;
 	}
-	public void setData(File data) {
+	public void setData(_File data) {
 		this.data = data;
 	}
 	

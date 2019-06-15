@@ -79,7 +79,10 @@ public class UserLoginView {
         	user=api.getUser(username, password.hashCode());
         if(user!=null)
         {
+        	SessionObject session=new SessionObject();
+        	session.setUser(user);
         	((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().setAttribute("user",user);
+        	((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().setAttribute("sessionObject",session);
         	try {
 				FacesContext.getCurrentInstance().getExternalContext().redirect("home.xhtml");
 			} catch (IOException e) {

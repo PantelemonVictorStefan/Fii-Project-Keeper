@@ -60,4 +60,9 @@ public class Security {
 	{
 		return (User)((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("user");
 	}
+	
+	public static SessionObject getSession()
+	{
+		return (SessionObject)((HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest()).getSession().getAttribute("sessionObject");
+	}
 }
