@@ -153,12 +153,16 @@ public class ProjectUploadView {
 			//display();
 			
 			DataAccessAPI api=new DataAccessAPI();
+			Project project=getAsProject();
 			
 			
-			if(api.addProject(getAsProject()))
-			{
-				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Proiectul a fost uploadat cu succes! ",""));
-			}
+			if(api.deleteProject(project.getRepository().getId(),project.getUser().getId()))
+				if(api.addProject(project))
+				{
+					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Proiectul a fost uploadat cu succes! ",""));
+				}
+				else
+					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Proiectul nu a putut fi salvat!",""));
 			else
 				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Proiectul nu a putut fi salvat!",""));
 		}

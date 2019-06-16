@@ -5,6 +5,7 @@ import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -366,11 +367,11 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 			if(presentationId!=-1)
 				prepStmt.setInt(4,presentationId);
 			else
-				prepStmt.setString(4, null);
+				prepStmt.setNull(4,Types.INTEGER);
 			if(dataId!=-1)
 				prepStmt.setInt(5,dataId);
 			else
-				prepStmt.setString(5, null);
+				prepStmt.setNull(5,Types.INTEGER);
 			
 			if(prepStmt.executeUpdate()>0)
 			{
@@ -388,9 +389,70 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 		return false;
 	}
 	
-	public boolean deleteProject(Project project)
+	public boolean deleteFile(int id)
 	{
-		PreparedStatement prepStmt=Database.getPreparedStatement("delete from data where file_id=?");
+		PreparedStatement prepStmt=Database.getPreparedStatement("delete from files where id=?");
+				try {
+					prepStmt.setInt(1,id);
+					prepStmt.execute();
+					
+					return true;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		return false;
+	}
+	
+	public boolean deleteProject(int repositoryId,int userId)
+	{
+		PreparedStatement prepStmt=Database.getPreparedStatement("select presentation_id,data_id from projects where repository_id=? and user_id=?");
+		ResultSet rs;
+		int presentationId=-1;
+		int dataId=-1;
+		
+		try {
+			prepStmt.setInt(1, repositoryId);
+			prepStmt.setInt(2, userId);
+			
+			rs=prepStmt.executeQuery();
+			
+			if(rs.next())
+			{
+				presentationId=rs.getInt(1);
+				dataId=rs.getInt(2);
+			}
+			
+			prepStmt=Database.getPreparedStatement("delete from projects where repository_id=? and user_id=?");
+			prepStmt.setInt(1, repositoryId);
+			prepStmt.setInt(2, userId);
+			
+			prepStmt.execute();
+			
+			
+			if(presentationId!=-1)
+			{
+				
+				if(!deleteFile(presentationId))
+					throw new SQLException("Deleting presentation failed.");
+			}
+			
+			if(dataId!=-1)
+			{
+				
+				if(!deleteFile(dataId))
+					throw new SQLException("Deleting old project failed.");
+			}
+			
+			return true;
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		/*
 		prepStmt.setInt(1, project.getPresentation().getId());
 		prepStmt.execute();*/

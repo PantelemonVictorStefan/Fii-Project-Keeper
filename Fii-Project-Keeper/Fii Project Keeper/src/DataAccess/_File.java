@@ -7,7 +7,6 @@ public class _File {
 
 	private int id;
 	private String filename;
-	private Byte[]data;
 	private InputStream fs;
 	private long size;
 	
@@ -22,12 +21,6 @@ public class _File {
 	}
 	public void setFilename(String filename) {
 		this.filename = filename;
-	}
-	public Byte[] getData() {
-		return data;
-	}
-	public void setData(Byte[] data) {
-		this.data = data;
 	}
 	public InputStream getFs() {
 		return fs;

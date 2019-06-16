@@ -1,11 +1,13 @@
 package View;
 
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
+import DataAccess._File;
 import Model.ProjectDTO;
 import resources.Database;
 
@@ -48,6 +50,34 @@ public class ViewDataAccess {
 		return projects;
 	}
 	
+	public _File getFileById(int id)
+	{
+		PreparedStatement prepStmt= Database.getPreparedStatement("select id,filename,size,data from files inner join data on id=file_id where id=?");
+		ResultSet rs;
+		_File file=new _File();
+		try {
+			prepStmt.setInt(1, id);
+			
+			rs=prepStmt.executeQuery();
+			
+			if(rs.next())
+			{
+				file.setId(rs.getInt(1));
+				file.setFilename(rs.getString(2));
+				file.setSize(rs.getLong(3));
+				file.setFs(rs.getBinaryStream(4));
+				
+				return file;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public ProjectView getProject(int repositoryId,int userId)
 	{
 		ProjectView project=null;
@@ -67,6 +97,9 @@ public class ViewDataAccess {
 				project.setDescription(rs.getString(2));
 				project.setPresentationId(rs.getInt(3));
 				project.setDataId(rs.getInt(4));
+				
+				//project.setPresentation(getFileById(rs.getInt(3)));
+				//project.setData(getFileById(rs.getInt(4)));
 				
 			}
 			rs.close();
