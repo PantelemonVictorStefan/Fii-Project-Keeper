@@ -12,6 +12,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import DataAccess._File;
+import resources.Security;
 
 public class ProjectView {
 
@@ -53,13 +54,13 @@ public class ProjectView {
 		this.dataId = dataId;
 	}
 	
+	public _File getPresentation() {
+		return presentation;
+	}
+	public void setPresentation(_File presentation) {
+		this.presentation = presentation;
+	}
 	
-	public StreamedContent getFile() {
-		this.data=new ViewDataAccess().getFileById(dataId);
-		//file=new DefaultStreamedContent(data.getFs(), "application/zip", data.getFilename());
-		file=new DefaultStreamedContent(data.getFs(), "application/zip", data.getFilename());
-        return file;
-    }
 	public _File getData() {
 		return data;
 	}
@@ -67,83 +68,44 @@ public class ProjectView {
 		this.data = data;
 	}
 	
+	public StreamedContent getFile() {
+		this.data=new ViewDataAccess().getFileById(dataId);
+		file=new DefaultStreamedContent(data.getFs(), "application/zip", data.getFilename());
+        return file;
+    }
+	
 	
 	public void downloadPDF() throws IOException {
+		
 		this.presentation=new ViewDataAccess().getFileById(presentationId);
 		
-        // Get the FacesContext
         FacesContext facesContext = FacesContext.getCurrentInstance();
          
-        // Get HTTP response
         HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-         
-        // Set response headers
-        response.reset();   // Reset the response in the first place
-        //response.setHeader("Content-Type", "application/pdf");  // Set only the content type
+        response.reset();
         response.setContentType("application/pdf");
         response.setContentLengthLong(presentation.getSize());
         response.setHeader("Content-Disposition", "inline; filename=\"" + presentation.getFilename() + "\"");
-        //response.setHeader("Content-Disposition", "attachment; filename=\"" + presentation.getFilename() + "\"");
-        
-        
-        //ec.setResponseContentLength((int)presentation.getSize()); 
-        //ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + presentation.getFilename() + "\""); 
-         
-        // Open response output stream
         OutputStream responseOutputStream = response.getOutputStream();
          
-        // Read PDF contents
         
         InputStream pdfInputStream = presentation.getFs();
          
-        // Read PDF contents and write them to the output
         byte[] bytesBuffer = new byte[2048];
         int bytesRead;
         while ((bytesRead = pdfInputStream.read(bytesBuffer)) > 0) {
             responseOutputStream.write(bytesBuffer, 0, bytesRead);
         }
-         
-        // Make sure that everything is out
         responseOutputStream.flush();
-          
-        // Close both streams
         pdfInputStream.close();
         responseOutputStream.close();
-         
-        // JSF doc: 
-        // Signal the JavaServer Faces implementation that the HTTP response for this request has already been generated 
-        // (such as an HTTP redirect), and that the request processing lifecycle should be terminated
-        // as soon as the current phase is completed.
         facesContext.responseComplete();
 	}
 	
-	void sendBackPDFToClient()
+	public boolean isOwner()
 	{
-	        //File temp = File.createTempFile(fileName, ".pdf");
-	        //File testPdfFile = new File("D:\AFC150_20180819_0103.pdf");
-	        FacesContext fc = FacesContext.getCurrentInstance();
-	        ExternalContext ec = fc.getExternalContext();
-
-	        ec.responseReset(); 
-	        ec.setResponseContentType("application/pdf"); 
-	        ec.setResponseContentLength((int)presentation.getSize()); 
-
-	        //Inline
-	        //ec.setResponseHeader("Content-Disposition", "inline; filename=\"" + testPdfFile.getName() + "\""); 
-
-	        //Attach for Browser
-	        ec.setResponseHeader("Content-Disposition", "attachment; filename=\"" + presentation.getFilename() + "\""); 
-
-	        //euOutputStream output = ec.getResponseOutputStream();
-	        //euFiles.copy(testPdfFile.toPath(), output);
-	        fc.responseComplete();
-
-
+		return Security.getSession().getUser().getUsername().equals(userName);
 	}
-	public _File getPresentation() {
-		return presentation;
-	}
-	public void setPresentation(_File presentation) {
-		this.presentation = presentation;
-	}
+	
+	
 }

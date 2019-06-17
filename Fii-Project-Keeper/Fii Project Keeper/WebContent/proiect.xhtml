@@ -6,6 +6,7 @@ xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
     xmlns:ex="http://tutorialspoint.com/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
     >
 
   <h:head>
@@ -58,21 +59,23 @@ color:#343a40;
       <p><h:outputText value="#{sessionObject.selectedProject.description}" /></p>
      
       </div>
-<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
-    
-</p:dialog>
-<h:form>   
-    <p:commandButton value="Download" ajax="false" icon="pi pi-arrow-down">
-        <p:fileDownload value="#{sessionObject.selectedProject.file}" />
-    </p:commandButton>      
-</h:form>
-		<h:form>
-            <h2>Click button to download PDF file</h2>
-            <br/>
-            <h:commandButton id="button" value="Download PDF" action="#{sessionObject.selectedProject.downloadPDF}"/>
-        </h:form>
-      
-      <a href="upload.xhtml" class="btn btn-primary">Upload</a>
+
+		<c:if test="#{sessionObject.selectedProject.presentationId!=0}">
+			<h:form>
+	           
+	            <h:commandButton class="btn btn-primary" id="button" value="View Presentation" action="#{sessionObject.selectedProject.downloadPDF}"/>
+	        </h:form>
+        </c:if>
+        <c:if test="#{sessionObject.selectedProject.dataId!=0}">
+        <h:form>   
+		    <p:commandButton  value="Download Project" ajax="false" icon="pi pi-arrow-down">
+		        <p:fileDownload value="#{sessionObject.selectedProject.file}" />
+		    </p:commandButton>      
+		</h:form>
+		</c:if>
+      <c:if test="#{sessionObject.selectedProject.isOwner()}">
+      		<a href="upload.xhtml" class="btn btn-primary">Overwrite</a>
+      </c:if>
     </div>
     <!-- /.container -->
     <!-- Footer -->

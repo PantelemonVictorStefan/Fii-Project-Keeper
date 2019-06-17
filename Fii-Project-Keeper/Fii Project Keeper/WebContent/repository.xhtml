@@ -74,7 +74,16 @@ color:#343a40;
       </ul>
       </div>
       
+      
+      <c:if test="#{sessionObject.selectedRepository.userHasProject()}">
+      <h:form>
+      		<h:commandLink class="btn btn-primary" value="My Upload" actionListener="#{sessionObject.viewProject()}"  />
+      </h:form>
+      
+      </c:if>
+      <c:if test="#{sessionObject.selectedRepository.userHasProject()==false}">
       <a href="upload.xhtml" class="btn btn-primary">Upload</a>
+      </c:if>
       
       <c:if test="#{user.type=='Profesor'}">
       <a href="proiecte.xhtml" class="btn btn-primary">View Projects</a>

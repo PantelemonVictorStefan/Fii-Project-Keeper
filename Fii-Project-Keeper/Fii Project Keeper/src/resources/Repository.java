@@ -8,7 +8,9 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 
 import DataAccess.An;
+import DataAccess.DataAccessAPI;
 import DataAccess.Limbaj;
+import View.ViewDataAccess;
 
 @ManagedBean
 public class Repository {
@@ -78,6 +80,13 @@ public class Repository {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public boolean userHasProject()
+	{
+		ViewDataAccess api=new ViewDataAccess();
+		
+		return api.projectExists(id, Security.getSession().getUser().getId());
 	}
 
 

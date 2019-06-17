@@ -160,6 +160,7 @@ public class ProjectUploadView {
 				if(api.addProject(project))
 				{
 					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Proiectul a fost uploadat cu succes! ",""));
+					Security.getSession().viewProject();
 				}
 				else
 					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Proiectul nu a putut fi salvat!",""));

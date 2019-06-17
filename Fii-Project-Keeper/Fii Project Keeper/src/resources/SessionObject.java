@@ -3,7 +3,9 @@ package resources;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import Model.ProjectDTO;
 import View.ProjectView;
+import View.ViewDataAccess;
 
 @ManagedBean
 @SessionScoped
@@ -29,5 +31,18 @@ public class SessionObject {
 	}
 	public void setSelectedProject(ProjectView selectedProject) {
 		this.selectedProject = selectedProject;
+	}
+	
+	public void viewProject()
+	{
+		ViewDataAccess api=new ViewDataAccess();
+		
+		ProjectView selectedProject=api.getProject(selectedRepository.getId(), user.getId());
+		setSelectedProject(selectedProject);
+		
+		
+		
+		Security.redirect("proiect.xhtml");
+		
 	}
 }

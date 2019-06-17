@@ -112,4 +112,29 @@ public class ViewDataAccess {
 		return project;
 	}
 	
+	public boolean projectExists(int repositoryId,int userId)
+	{
+		PreparedStatement prepStmt= Database.getPreparedStatement("select count(*) from projects where repository_id=? and user_id=?");
+		ResultSet rs;
+		
+		
+		try {
+			prepStmt.setInt(1, repositoryId);
+			prepStmt.setInt(2, userId);
+			
+			rs=prepStmt.executeQuery();
+			
+			if(rs.next())
+			{
+				return (rs.getInt(1)>0);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+		
+	}
+	
 }
