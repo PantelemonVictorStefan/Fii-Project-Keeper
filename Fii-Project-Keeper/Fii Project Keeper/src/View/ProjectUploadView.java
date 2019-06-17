@@ -106,6 +106,7 @@ public class ProjectUploadView {
 		return valid;
 	}
 	
+	
 	private Project getAsProject()
 	{
 		SessionObject session=Security.getSession();
@@ -145,7 +146,7 @@ public class ProjectUploadView {
 		
 	}
 	
-	public void upload() {
+	public boolean upload() {
 		//System.out.println("Called upload");
 		//
 		if(validateFiles())
@@ -155,22 +156,37 @@ public class ProjectUploadView {
 			DataAccessAPI api=new DataAccessAPI();
 			Project project=getAsProject();
 			
+			if(!project.getRepository().isActiv())
+			{
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Proiectul nu a putut fi salvat! Repositoy-ul este inactiv!",""));
+				return false;
+			}
 			
-			if(api.deleteProject(project.getRepository().getId(),project.getUser().getId()))
-				if(api.addProject(project))
-				{
+			
+			if(!api.deleteProject(project.getRepository().getId(),project.getUser().getId()))
+			{
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Eroare la stergerea vechiului proiect",""));
+				return false;
+			}
+			if(api.addProject(project))
+			{
 					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Proiectul a fost uploadat cu succes! ",""));
 					Security.getSession().viewProject();
-				}
-				else
-					FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Proiectul nu a putut fi salvat!",""));
+					return true;
+			}
 			else
+			{
 				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Proiectul nu a putut fi salvat!",""));
+				return false;
+			}
+			
 		}
 		else
 		{
 			FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Proiectul nu a putut fi salvat",""));
+			
 		}
+		return false;
         
     }
      

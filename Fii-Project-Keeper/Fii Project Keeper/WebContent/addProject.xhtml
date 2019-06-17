@@ -61,19 +61,19 @@ top: 10%;
 						        <div style=" height:150px; width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
 							        <h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%" >
 							        	<p:outputLabel for="materie" value="#{msg['subject']}" />
-									    <p:selectOneMenu id="materie" value="#{projectDTO.materie}" effect="fold" editable="false" required="true" >
+									    <p:selectOneMenu id="materie" value="#{repositoryDTO.materie}" effect="fold" editable="false" required="true" >
 									    	<f:selectItem itemLabel="#{msg['choose_subject']}" itemValue="" />
-									        <f:selectItems value="#{projectDTO.materii}" />
+									        <f:selectItems value="#{repositoryDTO.materii}" />
 									    </p:selectOneMenu>
 									     
 								        <p:outputLabel for="numeRepository" value="#{msg['repository_name']}" />
-								        <p:inputText id="numeRepository" value="#{projectDTO.numeRepository}" size="24" required="true" maxlength="30">
+								        <p:inputText id="numeRepository" value="#{repositoryDTO.numeRepository}" size="24" required="true" maxlength="30">
 								        	<f:validateRegex pattern="((?!')(?!\/)(?!\\)(?!:)(?!\*)(?!\?)(?!\&#34;)(?!&#60;)(?!&#62;)(?!\|).)*$"></f:validateRegex>
 								        </p:inputText>
 								        <p></p>
-								        <p:selectCheckboxMenu id="Limbaje" value="#{projectDTO.limbajeSelectate}" label="#{msg['used_languages']}" multiple="true" 
+								        <p:selectCheckboxMenu id="Limbaje" value="#{repositoryDTO.limbajeSelectate}" label="#{msg['used_languages']}" multiple="true" 
 								                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-								            <f:selectItems value="#{projectDTO.limbaje}" />
+								            <f:selectItems value="#{repositoryDTO.limbaje}" />
 								        </p:selectCheckboxMenu>
 							        </h:panelGrid>			        
 					        	</div>
@@ -96,9 +96,9 @@ top: 10%;
 									         	</td>
 									         
 											     <td>
-											        <p:selectCheckboxMenu id="Ani" value="#{projectDTO.aniSelectati}" label="#{msg['years']}" multiple="true" 
+											        <p:selectCheckboxMenu id="Ani" value="#{repositoryDTO.aniSelectati}" label="#{msg['years']}" multiple="true" 
 								                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-								            		<f:selectItems value="#{projectDTO.ani}" />
+								            		<f:selectItems value="#{repositoryDTO.ani}" />
 								        			</p:selectCheckboxMenu>
 											     </td>
 										     
@@ -127,7 +127,7 @@ top: 10%;
 									        	</td>
 									        	
 										        <td>
-										        	<p:calendar id="data" value="#{projectDTO.data}" mindate="#{systemConfiguration.getDate()}" editable="false"/>
+										        	<p:calendar id="data" value="#{repositoryDTO.data}" mindate="#{systemConfiguration.getDate()}" editable="false"/>
 										        </td>
 										    </tr>
 									   	</tbody>
@@ -152,7 +152,7 @@ top: 10%;
 										        </td>
 										        
 										        <td>
-										        	<p:inputTextarea rows="4" cols="40" counter="displayText" maxlength="1000" counterTemplate="{0} characters remaining." autoResize="false" value="#{projectDTO.detalii}">
+										        	<p:inputTextarea rows="4" cols="40" counter="displayText" maxlength="1000" counterTemplate="{0} characters remaining." autoResize="false" value="#{repositoryDTO.detalii}">
 										        		<f:validateRegex pattern="^((?!').)*$"></f:validateRegex>
 										        	</p:inputTextarea>
 												</td>
@@ -170,7 +170,7 @@ top: 10%;
 					        
 					        <td>
 					        	<div style=" width:150%;text-align:center;">
-					        		<p:commandButton value="#{msg['submit']}"  icon="ui-icon-check" actionListener="#{projectDTO.submit}" update="panel" />
+					        		<p:commandButton value="#{msg['submit']}"  icon="ui-icon-check" actionListener="#{repositoryDTO.submit}" update="panel" />
 					        	</div>
 					        </td>
 					    </tr>

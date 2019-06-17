@@ -45,7 +45,10 @@ color:#343a40;
 
   </h:head>
 
-  <h:body >
+  <h:body style="overflow:auto">
+  <f:metadata>
+  	<f:event type="preRenderView" listener="#{security.isAuthenticated()}"/>
+  </f:metadata>
     <!-- Navigation -->
     <ex:navBar/>
 

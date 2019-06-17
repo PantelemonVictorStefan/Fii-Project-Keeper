@@ -267,7 +267,7 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 		List<RepositoryCardView> repositories=new LinkedList<RepositoryCardView>();
 		ResultSet rs;
 		try {
-			rs=Database.executeQuery("select repositories.id,project_name,deadline,subject from repositories_years INNER JOIN repositories on repositories.id=repositories_years.repository_id INNER JOIN years on years.id=repositories_years.year_id order by active");
+			rs=Database.executeQuery("select distinct repositories.id,project_name,deadline,subject from repositories_years INNER JOIN repositories on repositories.id=repositories_years.repository_id INNER JOIN years on years.id=repositories_years.year_id");
 			
 			while(rs.next())
 			{

@@ -46,6 +46,18 @@ color:#343a40;
   </h:head>
 
   <h:body >
+  <f:metadata>
+  	<f:event type="preRenderView" listener="#{security.isAuthenticated()}"/>
+  </f:metadata>
+  <c:if test="#{sessionObject.user.username!=sessionObject.selectedProject.userName}">
+  		<c:if test="#{sessionObject.user.type!='Profesor'}">
+  		<f:metadata>
+  	<f:event type="preRenderView" listener="#{security.redirect('home.xhtml')}"/>
+  </f:metadata>
+  		</c:if>
+  </c:if>
+  
+  
     <!-- Navigation -->
     <ex:navBar/>
 
