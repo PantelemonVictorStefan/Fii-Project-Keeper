@@ -25,6 +25,13 @@ xmlns="http://www.w3.org/1999/xhtml"
     <!-- Custom styles for this template -->
     <link href="mainStyle/css/heroic-features.css" rel="stylesheet"/>
 
+
+
+<style>
+.card-footer{
+	text-align: center;
+	}
+</style>
   </h:head>
 
   <h:body >
@@ -44,17 +51,17 @@ xmlns="http://www.w3.org/1999/xhtml"
        
       </header>
       <!-- Page Features -->
-      <c:if test="#{user.getTypeNumber()==1}">
+      <c:if test="#{user.type=='Student'}">
 	      <div class="row text-center">
 	
 	        <div class="col-lg-3 col-md-6 mb-4" style="left:38%; ">
 	          <div class="card" >
 	            <img class="card-img-top" src="mainStyle/icons/upload.png" alt=""/>
 	            <div class="card-body">
-	              <h4 class="card-title"><h:outputText value = "#{msg['load_a_project']}" />.</h4>
+	              <h4 class="card-title"><h:outputText value = "Vezi proiectele" />.</h4>
 	            </div>
 	            <div class="card-footer">
-	              <a href="repositories.xhtml" class="btn btn-primary"><h:outputText value = "#{msg['upload']}" /></a>
+	              <a href="repositories.xhtml" class="btn btn-primary"><h:outputText value = "Proiecte" /></a>
 	            </div>
 	          </div>
 	        </div>
@@ -62,35 +69,52 @@ xmlns="http://www.w3.org/1999/xhtml"
 	      </div>
       </c:if>
       
-      <c:if test="#{user.getTypeNumber()==2}">
-	        <div class="row text-center">
-	        <div class="col-lg-3 col-md-6 mb-4">
+      
+      <c:if test="#{user.type=='Profesor'}">
+      <h:panelGrid columns="3" width="100%" cellpadding="5" >
+      
+     
+	       
+	        
+       
+      
+      
+      		<h:panelGroup>
+	        
+	        
+	 
+	         
+	        <div class="col-lg-10 col-md-6 mb-4">
 	          <div class="card">
 	            <img class="card-img-top" src="mainStyle/icons/upload.png" alt=""/>
 	            <div class="card-body">
-	              <h4 class="card-title"><h:outputText value = "#{msg['load_a_project']}" />.</h4>
+	              <h4 class="card-title"><h:outputText value = "Vezi proiectele" />.</h4>
 	             <!-- <p class="card-text">Incarca un proiect.</p>-->
 	            </div>
 	            <div class="card-footer">
-	              <a href="repositories.xhtml" class="btn btn-primary"><h:outputText value = "#{msg['upload']}" /></a>
+	              <a href="repositories.xhtml" class="btn btn-primary"><h:outputText value = "Proiecte" /></a>
 	            </div>
 	          </div>
 	        </div>
-	
-	        <div class="col-lg-3 col-md-6 mb-4">
-	          <div class="card">
-	            <img class="card-img-top" src="mainStyle/icons/download.png" alt=""/>
-	            <div class="card-body">
-	              <h4 class="card-title"><h:outputText value = "#{msg['download_a_project']}" />.</h4>
-	             <!-- <p class="card-text">Incarca un proiect.</p>-->
-	             </div>
-	            <div class="card-footer">
-	              <a href="#" class="btn btn-primary"><h:outputText value = "#{msg['download']}" /></a>
-	            </div>
-	          </div>
-	        </div>
-	
-	        <div class="col-lg-3 col-md-6 mb-4">
+	        </h:panelGroup>
+	        
+	       <h:panelGroup>
+	        <div class="col-lg-10 col-md-6 mb-4">
+          <div class="card">
+            <img class="card-img-top" src="mainStyle/icons/newRepo.png" alt=""/>
+            <div class="card-body">
+              <h4 class="card-title">Adauga un repository.</h4>
+             <!-- <p class="card-text">Incarca un proiect.</p>-->
+            </div>
+            <div class="card-footer">
+              <a href="addProject.xhtml" class="btn btn-primary">Adauga</a>
+            </div>
+          </div>
+        </div>
+        </h:panelGroup>
+        
+	<h:panelGroup>
+	        <div class="col-lg-10 col-md-6 mb-4">
 	         	<div class="card">
 		            <img class="card-img-top" src="mainStyle/icons/setari.png" alt=""/>
 		            <div class="card-body">
@@ -103,19 +127,14 @@ xmlns="http://www.w3.org/1999/xhtml"
 	        	</div>
 	        </div>
 	
-	        <div class="col-lg-3 col-md-6 mb-4">
-	          <div class="card">
-	            <img class="card-img-top" src="mainStyle/icons/antiplagiere.png" alt=""/>
-	            <div class="card-body">
-	              <h4 class="card-title"><h:outputText value = "#{msg['anticheat']}" /></h4>
-	             <!-- <p class="card-text">Incarca un proiect.</p>-->
-	             </div>
-	            <div class="card-footer">
-	              <a href="#" class="btn btn-primary"><h:outputText value = "#{msg['compare']}" /></a>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
+	
+			
+	        
+	      
+	      </h:panelGroup>
+	      
+	      </h:panelGrid>
+	     
       </c:if>
       <!-- /.row -->
 
