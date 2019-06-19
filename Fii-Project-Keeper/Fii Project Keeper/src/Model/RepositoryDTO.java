@@ -14,8 +14,8 @@ import javax.faces.context.FacesContext;
 import DataAccess.An;
 import DataAccess.DataAccessAPI;
 import DataAccess.Limbaj;
+import DataAccess.Repository;
 import resources.Database;
-import resources.Repository;
 import resources.Validator;
 
 @ManagedBean
@@ -31,6 +31,7 @@ public class RepositoryDTO {
 	private List<An> aniSelectati;
 	private Date data;
 	private String detalii;
+	
 	
 	public String getMaterie() {
 		if(materie==null)
@@ -242,6 +243,8 @@ public class RepositoryDTO {
 		project.setMaterie(materie);
 		project.setNumeRepository(numeRepository);
 		
+		project.setCreatedAt(new Date());
+		
 		return project;
 	}
 	
@@ -255,6 +258,11 @@ public class RepositoryDTO {
 			else
 				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Repository-ul nu a putut fi salvat",""));
 		}
+	}
+	
+	
+	public Date getCurrentDate() {
+		return new Date();
 	}
 	
 	

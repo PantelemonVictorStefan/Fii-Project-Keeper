@@ -51,120 +51,108 @@ top: 10%;
 			
 	        <h:form id="panel">
 	        <p:growl id="growl"  life="10000" />
-		        <table width="100%" cellpadding="20">
-			        <tbody>
-				        <tr>
-				        	<td>
+	        <h:panelGrid columns="2" cellpadding="20" width="100%" style="margin-left: 10%" >
+		        
+				        
 				        		<p:outputLabel  value="#{msg['main_information']}"  style="font-size:25px"/>
-				        	</td>
-				        	<td>
-						        <div style=" height:150px; width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
+				        	
+				        	
+				        	<h:panelGroup>
+						        <div style="  width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
+						        
 							        <h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%" >
-							        	<p:outputLabel for="materie" value="#{msg['subject']}" />
-									    <p:selectOneMenu id="materie" value="#{repositoryDTO.materie}" effect="fold" editable="false" required="true" >
-									    	<f:selectItem itemLabel="#{msg['choose_subject']}" itemValue="" />
-									        <f:selectItems value="#{repositoryDTO.materii}" />
-									    </p:selectOneMenu>
+							        	
 									     
 								        <p:outputLabel for="numeRepository" value="#{msg['repository_name']}" />
 								        <p:inputText id="numeRepository" value="#{repositoryDTO.numeRepository}" size="24" required="true" maxlength="30">
 								        	<f:validateRegex pattern="((?!')(?!\/)(?!\\)(?!:)(?!\*)(?!\?)(?!\&#34;)(?!&#60;)(?!&#62;)(?!\|).)*$"></f:validateRegex>
 								        </p:inputText>
-								        <p></p>
-								        <p:selectCheckboxMenu id="Limbaje" value="#{repositoryDTO.limbajeSelectate}" label="#{msg['used_languages']}" multiple="true" 
-								                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-								            <f:selectItems value="#{repositoryDTO.limbaje}" />
-								        </p:selectCheckboxMenu>
+								        
 							        </h:panelGrid>			        
 					        	</div>
-					        </td>
-					    </tr>
-					        
-				        <tr>
-					        <td>
+					        	</h:panelGroup>
+					      
+					    
+					    
+					    
+					     
+				        
 					        	<p:outputLabel  value="#{msg['audience']}*"  style="font-size:25px"/>
-					        </td>
+					        <h:panelGroup>
+					        	<div style="  width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
 					        
-					        <td>
-					        	<div style=" height:100px; width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
-					        
-							        <table cellpadding="5" width="100%" style="margin-left: 10%">
-								        <tbody>
-									        <tr>
-									        	<td width="37%">
+					        		<h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%">
+							        
 									         		<p:outputLabel value="#{msg['choose_years']}" />
-									         	</td>
-									         
-											     <td>
+									         	
+									         <h:panelGroup>
+											     
 											        <p:selectCheckboxMenu id="Ani" value="#{repositoryDTO.aniSelectati}" label="#{msg['years']}" multiple="true" 
 								                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
 								            		<f:selectItems value="#{repositoryDTO.ani}" />
 								        			</p:selectCheckboxMenu>
-											     </td>
+											  </h:panelGroup>
 										     
-										    </tr>
-										    
-										</tbody>
-							        </table>
+							        </h:panelGrid>
 							        
 							        
 						        </div>
-					        </td>
-					   	</tr>
+						        </h:panelGroup>
+						        
+						         
+					       
 					   	
-					    <tr>
-					        <td>
+					    
 					        	<p:outputLabel  value="#{msg['deadline']}"  style="font-size:25px"/>
-					        </td>
-					        
-					        <td>
-						        <div style=" height:100px; width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
-								    <table  cellpadding="5" width="100%" style="margin-left: 10%; ">
-								        <tbody>
-									        <tr>
-									        	<td width="37%">
+					       <h:panelGroup>
+						        <div style=" width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
+								    <h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%">
+								       
 									        		<p:outputLabel for="data" value="#{msg['date']}:" />
-									        	</td>
 									        	
-										        <td>
-										        	<p:calendar id="data" value="#{repositoryDTO.data}" mindate="#{systemConfiguration.getDate()}" editable="false"/>
-										        </td>
-										    </tr>
-									   	</tbody>
-							        </table>
+										        	<p:calendar id="data" value="#{repositoryDTO.data}" mindate="#{repositoryDTO.getCurrentDate()}" editable="false"/>
+										       </h:panelGrid>
 						        </div>
-					        </td>
-					    </tr>
-					        
-					    <tr>
-					        <td>
+					        </h:panelGroup>
+					    
+					   
+					    
+					    
+					         
+					    
 					        	<p:outputLabel  value="#{msg['details']}"  style="font-size:25px"/>
-					        </td>
+					       <h:panelGroup>
+					        	<div style=" width:150%;  background:#FFFFFF; border-radius:25px; text-align:left;">
+					        		<h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%" >
+					        		
+					        			<p:outputLabel for="materie" value="#{msg['subject']}" />
+									    <p:selectOneMenu id="materie" value="#{repositoryDTO.materie}" effect="fold" editable="true"  >
+									    	<f:selectItem itemLabel="#{msg['choose_subject']}" itemValue="" />
+									        <f:selectItems value="#{repositoryDTO.materii}" />
+									    </p:selectOneMenu>
 					        
-					        <td>
-					        	<div style=" height:150px; width:150%;  background:#FFFFFF; border-radius:25px; text-align:left;">
 					        
-							        <table  cellpadding="5" width="100%" style="margin-left: 10%;">
-								        <tbody>
-									        <tr>
-										        <td width="37%">
-										        	<h:outputText id="displayText" style="position:relative; resize:vertical;display:block;width:135px"  />
-										        </td>
+					        <p:outputLabel  value="Limbaje recomandate" />
+							        <p:selectCheckboxMenu id="Limbaje" value="#{repositoryDTO.limbajeSelectate}" label="#{msg['used_languages']}" multiple="true" 
+								                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+								            <f:selectItems value="#{repositoryDTO.limbaje}" />
+								        </p:selectCheckboxMenu>
+										        	<p:outputLabel  value="Alte informatii"  />
 										        
-										        <td>
-										        	<p:inputTextarea rows="4" cols="40" counter="displayText" maxlength="1000" counterTemplate="{0} characters remaining." autoResize="false" value="#{repositoryDTO.detalii}">
+										        	<p:inputTextarea rows="4" cols="40"  maxlength="1000" counterTemplate="{0} characters remaining." autoResize="false" value="#{repositoryDTO.detalii}">
 										        		<f:validateRegex pattern="^((?!').)*$"></f:validateRegex>
 										        	</p:inputTextarea>
-												</td>
-									        </tr>
-								        </tbody>
-							        </table>
-						      		
+											
+						      		</h:panelGrid>
 								    
 						        </div>
-					        </td>
-					    </tr>
+					       </h:panelGroup>
 					    
+					     </h:panelGrid>
+					    
+					    <table width="100%" cellpadding="20">
+		        
+			        <tbody>  
 					    <tr>
 					        <td></td>
 					        
@@ -186,7 +174,7 @@ top: 10%;
     <!-- Footer
      -->
  
-        <footer class="py-5 bg-dark" style="position:relative; bottom:0; width:100%; left: 0;" >
+        <footer class="py-5 bg-dark" style="position:fixed; bottom:0; width:100%; left: 0;" >
       		<div class="container">
         		<p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
       		</div>

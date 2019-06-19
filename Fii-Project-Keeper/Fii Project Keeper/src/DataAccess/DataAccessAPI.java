@@ -2,6 +2,7 @@ package DataAccess;
 
 import java.io.IOException;
 import java.sql.Blob;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,9 +11,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import View.RepositoryCardView;
 import resources.Database;
-import resources.Repository;
-import resources.RepositoryCardView;
 import resources.User;
 
 public class DataAccessAPI {
@@ -120,19 +120,21 @@ public class DataAccessAPI {
 	
 	public boolean addRepository(Repository repository)
 	{
-		PreparedStatement prepStmt = Database.getPreparedStatement("insert into Repositories(subject,project_name,deadline,details,active) values(?,?,?,?,?)");
+		PreparedStatement prepStmt = Database.getPreparedStatement("insert into Repositories(subject,name,createdAt,deadline,details,active) values(?,?,?,?,?,?)");
 		
 		
 		try {
 			prepStmt.setString(1, repository.getMaterie());
 			prepStmt.setString(2, repository.getNumeRepository());
-			prepStmt.setString(3, repository.getData());
-			prepStmt.setString(4, repository.getDetalii());
-			prepStmt.setBoolean(5, repository.isActiv());
+			prepStmt.setDate(3,new Date(repository.getCreatedAt().getTime()));
+			prepStmt.setString(4, repository.getData());
+			
+			prepStmt.setString(5, repository.getDetalii());
+			prepStmt.setBoolean(6, repository.isActiv());
 			prepStmt.execute();
 			prepStmt.close();
 			
-			ResultSet rs=Database.executeQuery("select id from repositories where project_name='"+repository.getNumeRepository()+"'");
+			ResultSet rs=Database.executeQuery("select id from repositories where name='"+repository.getNumeRepository()+"'");
 			
 			int id=0;
 			if(rs.next())
@@ -184,12 +186,15 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 				repository.setId(rs.getInt(1));
 				repository.setMaterie(rs.getString(2));
 				repository.setNumeRepository(rs.getString(3));
-				repository.setData(rs.getString(4));
-				repository.setDetalii(rs.getString(5));
-				repository.setActiv(rs.getBoolean(6));
+				repository.setCreatedAt(rs.getDate(4));
+				repository.setData(rs.getString(5));
+				repository.setDetalii(rs.getString(6));
+				repository.setActiv(rs.getBoolean(7));
 				
 				repository.setAni(getYearsOfRepository(id));
 				repository.setLimbaje(getLanguagesOfRepository(id));
+				
+				
 				
 				return repository;
 			}
@@ -200,6 +205,27 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 		}
 		
 		return null;
+	}
+	
+	public boolean updateRespositoryActive(int id,boolean value)
+	{
+		PreparedStatement prepStmt=Database.getPreparedStatement("update repositories set active=? where id=?");
+		
+		try {
+			prepStmt.setBoolean(1, value);
+			prepStmt.setInt(2, id);
+			
+			prepStmt.executeUpdate();
+			
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+		
+		
 	}
 	
 	public User getUser(String username,int password)
@@ -232,14 +258,16 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 		return null;
 	}
 	
-	public List<RepositoryCardView> getRepositoriesByYear(String year)
+	public List<RepositoryCardView> getRepositoriesByStatusAndYear(boolean status,String year)
 	{
 		List<RepositoryCardView> repositories=new LinkedList<RepositoryCardView>();
-		PreparedStatement prepStmt = Database.getPreparedStatement("select repositories.id,project_name,deadline,subject from repositories_years INNER JOIN repositories on repositories.id=repositories_years.repository_id INNER JOIN years on years.id=repositories_years.year_id where name=? and active=true");
+		PreparedStatement prepStmt = Database.getPreparedStatement("select distinct repositories.id,repositories.name,createdAt,deadline,subject from repositories_years INNER JOIN repositories on repositories.id=repositories_years.repository_id INNER JOIN years on years.id=repositories_years.year_id where years.name=? and active=? order by createdAt desc");
 		
 		ResultSet rs;
 		try {
 			prepStmt.setString(1, year);
+			prepStmt.setBoolean(2,status);
+			
 			rs = prepStmt.executeQuery();
 			
 			while(rs.next())
@@ -248,8 +276,9 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 				
 				repo.setId(rs.getInt(1));
 				repo.setTitle(rs.getString(2));
-				repo.setData(rs.getString(3));
-				repo.setSubject(rs.getString(4));
+				repo.setCreatedAt(new java.util.Date(rs.getDate(3).getTime()));
+				repo.setData(rs.getString(4));
+				repo.setSubject(rs.getString(5));
 				
 				repositories.add(repo);
 			}
@@ -262,12 +291,16 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 		return null;
 	}
 	
-	public List<RepositoryCardView> getRepositories()
+	public List<RepositoryCardView> getRepositoriesByStatus(boolean status)
 	{
 		List<RepositoryCardView> repositories=new LinkedList<RepositoryCardView>();
+		PreparedStatement prepStmt = Database.getPreparedStatement("select distinct repositories.id,repositories.name,createdAt,deadline,subject from repositories_years INNER JOIN repositories on repositories.id=repositories_years.repository_id INNER JOIN years on years.id=repositories_years.year_id where active=? order by createdAt desc");
+		
 		ResultSet rs;
 		try {
-			rs=Database.executeQuery("select distinct repositories.id,project_name,deadline,subject from repositories_years INNER JOIN repositories on repositories.id=repositories_years.repository_id INNER JOIN years on years.id=repositories_years.year_id");
+			prepStmt.setBoolean(1,status);
+			
+			rs = prepStmt.executeQuery();
 			
 			while(rs.next())
 			{
@@ -275,8 +308,9 @@ PreparedStatement prepStmt = Database.getPreparedStatement("select * from reposi
 				
 				repo.setId(rs.getInt(1));
 				repo.setTitle(rs.getString(2));
-				repo.setData(rs.getString(3));
-				repo.setSubject(rs.getString(4));
+				repo.setCreatedAt(new java.util.Date(rs.getDate(3).getTime()));
+				repo.setData(rs.getString(4));
+				repo.setSubject(rs.getString(5));
 				
 				repositories.add(repo);
 			}

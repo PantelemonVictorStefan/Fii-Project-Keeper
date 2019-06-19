@@ -10,18 +10,20 @@ import javax.faces.event.ValueChangeEvent;
 
 
 import DataAccess.DataAccessAPI;
-import resources.Repository;
-import resources.RepositoryCardView;
+import DataAccess.Repository;
 import resources.Security;
 import resources.SessionObject;
 import resources.User;
 
 @ManagedBean
+@SessionScoped
 public class RepositoriesView {
 
 
-	List<RepositoryCardView> proiecte;
+	private List<RepositoryCardView> proiecte;
 	private Repository selectedProject;
+	
+	private boolean viewingActiveRepositories=true;
 
 	public Repository getSelectedProject() {
 		return selectedProject;
@@ -51,16 +53,13 @@ public class RepositoriesView {
 		SessionObject session=Security.getSession();
 		DataAccessAPI api=new DataAccessAPI();
 		if(session.getUser().getType().equals("Student"))
-			proiecte=api.getRepositoriesByYear(session.getUser().getYear());
+			proiecte=api.getRepositoriesByStatusAndYear(viewingActiveRepositories,session.getUser().getYear());
 		if(session.getUser().getType().equals("Profesor"))
-			proiecte=api.getRepositories();
-		
-		
-		
-		
-		
-		
+			proiecte=api.getRepositoriesByStatus(viewingActiveRepositories);
 	}
+	
+	
+	
 	public void viewProject(int index)
 	{
 		
@@ -74,6 +73,20 @@ public class RepositoriesView {
 				System.out.println("object is null");
 			
 			Security.redirect("repository.xhtml");
+	}
+
+	public boolean isViewingActiveRepositories() {
+		return viewingActiveRepositories;
+	}
+
+	public void setViewingActiveRepositories(boolean viewingActiveRepositories) {
+		this.viewingActiveRepositories = viewingActiveRepositories;
+	}
+	
+	public void viewOthers()
+	{
+		viewingActiveRepositories=!viewingActiveRepositories;
+		init();
 	}
 
 

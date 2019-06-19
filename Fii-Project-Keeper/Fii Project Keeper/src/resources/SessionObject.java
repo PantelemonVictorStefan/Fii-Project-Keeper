@@ -1,8 +1,12 @@
 package resources;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
+import DataAccess.DataAccessAPI;
+import DataAccess.Repository;
 import Model.ProjectDTO;
 import View.ProjectView;
 import View.ViewDataAccess;
@@ -44,5 +48,17 @@ public class SessionObject {
 		
 		Security.redirect("proiect.xhtml");
 		
+	}
+	
+	public void activateDeactivateRepository()
+	{
+		
+			if(selectedRepository.activateDeactivateRepository())
+			{
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Modificarea a fost salvata! ",""));
+			}
+			else
+				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Modificarea a putut fi efectuata! ",""));
+				
 	}
 }

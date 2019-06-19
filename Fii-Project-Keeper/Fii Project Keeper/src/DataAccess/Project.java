@@ -1,6 +1,5 @@
 package DataAccess;
 
-import resources.Repository;
 import resources.User;
 
 public class Project {

@@ -6,6 +6,7 @@ xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
 	xmlns:ex="http://tutorialspoint.com/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	>
 
   <h:head>
@@ -65,7 +66,19 @@ dd { float: left; }
 
     <!-- Page Content -->
     <div class="container">
-
+    <h:panelGrid columns="2" width="100%" >
+    <h:panelGroup>
+<h:form>
+      
+      <c:if test="#{repositoriesView.viewingActiveRepositories}">
+      		<h:commandLink class="btn btn-primary" value="View archived" actionListener="#{repositoriesView.viewOthers()}"  />
+      </c:if>
+      <c:if test="#{repositoriesView.viewingActiveRepositories==false}">
+      		<h:commandLink class="btn btn-primary" value="View active" actionListener="#{repositoriesView.viewOthers()}"  />
+      </c:if>
+</h:form>
+</h:panelGroup>
+		<h:panelGroup>
       <!-- Jumbotron Header -->
       <div class="jumbotron my-4">
       
@@ -77,6 +90,8 @@ dd { float: left; }
 		            <dl>
 					  <dt>Materie</dt>
 					  <dd><h:outputText value="#{proiect.subject}" /></dd>
+					  <dt>Data crearii</dt>
+					  <dd><h:outputText value="#{proiect.getFormattedDate()}" /></dd>
 					  <dt>Deadline</dt>
 					  <dd><h:outputText value="#{proiect.data}" /></dd>
 					</dl>
@@ -95,6 +110,10 @@ dd { float: left; }
     </p:dataGrid>
       
       </div>
+      
+      </h:panelGroup>
+      
+      </h:panelGrid>
 
       <!-- /.row -->
 

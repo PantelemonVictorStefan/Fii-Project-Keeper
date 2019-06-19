@@ -85,8 +85,10 @@ color:#343a40;
 		    </p:commandButton>      
 		</h:form>
 		</c:if>
-      <c:if test="#{sessionObject.selectedProject.isOwner()}">
-      		<a href="upload.xhtml" class="btn btn-primary">Overwrite</a>
+		<c:if test="#{sessionObject.selectedRepository.isActiv()}">
+		      <c:if test="#{sessionObject.selectedProject.isOwner()}">
+		      		<a href="upload.xhtml" class="btn btn-primary">Overwrite</a>
+		      </c:if>
       </c:if>
     </div>
     <!-- /.container -->

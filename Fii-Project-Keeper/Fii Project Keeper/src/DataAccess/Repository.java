@@ -1,4 +1,4 @@
-package resources;
+package DataAccess;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,10 +7,8 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 
-import DataAccess.An;
-import DataAccess.DataAccessAPI;
-import DataAccess.Limbaj;
 import View.ViewDataAccess;
+import resources.Security;
 
 @ManagedBean
 public class Repository {
@@ -23,6 +21,7 @@ public class Repository {
 	private String data;
 	private String detalii;
 	private boolean activ=true;
+	private Date createdAt;
 	
 	
 	public String getMaterie() {
@@ -87,6 +86,22 @@ public class Repository {
 		ViewDataAccess api=new ViewDataAccess();
 		
 		return api.projectExists(id, Security.getSession().getUser().getId());
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	public boolean activateDeactivateRepository()
+	{
+		if(new DataAccessAPI().updateRespositoryActive(id, !activ))
+		{
+			activ=!activ;
+			return true;
+		}
+		return false; 
 	}
 
 

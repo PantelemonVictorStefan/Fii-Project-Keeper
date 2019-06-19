@@ -19,7 +19,7 @@ drop table data;
 create table users(id serial primary key not null,username varchar(30) not null unique,password int not null ,year varchar(3),role varchar(10) not null);
 
 
-create table Repositories (id serial primary key not null,subject varchar(30) not null,project_name varchar(30) not null unique,deadline varchar(10),details varchar(1000),active bool not null);
+create table Repositories (id serial primary key not null,subject varchar(30) not null,name varchar(30) not null unique,createdAt date,deadline varchar(10),details varchar(1000),active bool not null);
 
 create table ProgrammingLanguages(id serial primary key not null,language varchar(20) not null);
 

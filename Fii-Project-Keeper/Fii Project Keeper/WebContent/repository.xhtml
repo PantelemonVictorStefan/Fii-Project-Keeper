@@ -41,6 +41,11 @@ color:#343a40;
 .ui-grid-row {
     margin-bottom:10px;
 }
+
+.ui-growl {
+right: 20px;
+top: 10%;
+}
 </style>
 
   </h:head>
@@ -49,6 +54,8 @@ color:#343a40;
   <f:metadata>
   	<f:event type="preRenderView" listener="#{security.isAuthenticated()}"/>
   </f:metadata>
+  
+  
     <!-- Navigation -->
     <ex:navBar/>
 
@@ -84,14 +91,25 @@ color:#343a40;
       </h:form>
       
       </c:if>
+      <c:if test="#{sessionObject.selectedRepository.isActiv()}">
       <c:if test="#{sessionObject.selectedRepository.userHasProject()==false}">
+      
       <a href="upload.xhtml" class="btn btn-primary">Upload</a>
+      </c:if>
       </c:if>
       
       <c:if test="#{user.type=='Profesor'}">
       <a href="proiecte.xhtml" class="btn btn-primary">View Projects</a>
+      <h:form>
+      <p:growl id="growl"  life="10000" />
+      <c:if test="#{sessionObject.selectedRepository.activ}">
+      		<h:commandLink class="btn btn-primary" value="Archive" actionListener="#{sessionObject.activateDeactivateRepository()}"  />
       </c:if>
-      
+      <c:if test="#{sessionObject.selectedRepository.activ==false}">
+      		<h:commandLink class="btn btn-primary" value="Restore" actionListener="#{sessionObject.activateDeactivateRepository()}"  />
+      </c:if>
+      </h:form>
+      </c:if>
     </div>
     <!-- /.container -->
     <!-- Footer -->

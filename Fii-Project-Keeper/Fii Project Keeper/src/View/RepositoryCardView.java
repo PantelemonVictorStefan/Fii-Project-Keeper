@@ -1,4 +1,7 @@
-package resources;
+package View;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.faces.bean.ManagedBean;
 
@@ -8,6 +11,7 @@ public class RepositoryCardView {
 	private int id;
 	private String title;
 	private String subject;
+	private Date createdAt;
 	private String data;
 	
 	public int getId() {
@@ -52,6 +56,17 @@ public class RepositoryCardView {
 		{
 			this.data=data;
 		}
+	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	public String getFormattedDate()
+	{
+		return new SimpleDateFormat("MM/dd/yyyy").format(createdAt);
 	}
 	
 	
