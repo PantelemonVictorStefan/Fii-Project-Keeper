@@ -109,7 +109,7 @@ margin:5px;
       </div>
       </h:panelGroup>
       
-      
+      <c:if test="#{sessionObject.selectedRepository.detalii!=''}">
       <h:panelGroup>
       <div class="white-roundEdges-div">
 	      <dl>
@@ -121,7 +121,9 @@ margin:5px;
 	      </dl>
       </div>
       </h:panelGroup>
+      </c:if>
 
+	  <c:if test="#{sessionObject.selectedRepository.limbaje.size()!=0}">
       <h:panelGroup>
       <div class="white-roundEdges-div">
 	      <dl>
@@ -138,6 +140,7 @@ margin:5px;
 	      </dl>
       </div>
      </h:panelGroup>
+     </c:if>
      
      <h:panelGroup>
       <div class="white-roundEdges-div">

@@ -41,6 +41,43 @@ color:#343a40;
 .ui-grid-row {
     margin-bottom:10px;
 }
+
+.white-roundEdges-div
+{
+
+ background:#FFFFFF;
+  border-radius:25px;
+   text-align:left;
+    padding:10px;
+}
+
+dd {
+padding-left:40px;
+}
+
+ul {
+  list-style-type: none;
+  overflow: hidden;
+  margin:0;
+  padding:0px;
+}
+
+li {
+margin:5px;
+  float: left;
+}
+
+.myjumbotron
+{
+    margin-bottom: 1.5rem !important;
+margin-top: 1.5rem !important;
+
+background-color: #e9ecef;
+border-radius: .99rem;
+text-align: center;
+padding:10px;
+}
+
 </style>
 
   </h:head>
@@ -64,32 +101,71 @@ color:#343a40;
     <!-- Page Content -->
     <div class="container">
 
+
+
+
+
       <!-- Jumbotron Header -->
-      <div class="jumbotron my-4" >
+      <div class="myjumbotron " >
+      <center style="margin:20px"><h1>Vizualizare Proiect</h1></center>
+    <h:panelGrid columns="1" width="auto" style="margin:auto;" cellpadding="10px">
+      <h:panelGroup>
+       <div class="white-roundEdges-div">
+	      <dl>
+		      <dt>Autor</dt>
+		      
+		      <dd>
+		      		<p><h:outputText value="#{sessionObject.selectedProject.userName}" /></p>
+		      </dd>
+	      </dl>
+      </div>
+      </h:panelGroup>
       
-      <p><h:outputText value="#{sessionObject.selectedProject.userName}" /></p>
-      <p><h:outputText value="#{sessionObject.selectedProject.description}" /></p>
-     
+      
+      <h:panelGroup>
+      <div class="white-roundEdges-div">
+	      <dl>
+		      <dt>Descriere</dt>
+		      
+		      <dd>
+		      		<p><h:outputText value="#{sessionObject.selectedProject.description}" /></p>
+		      </dd>
+	      </dl>
+      </div>
+      </h:panelGroup>
+	
+		
+      
+      </h:panelGrid>
       </div>
 
+		<h:panelGrid columns="3" width="auto" style="margin:auto;" cellpadding="15px">
+		
 		<c:if test="#{sessionObject.selectedProject.presentationId!=0}">
+		<h:panelGroup>
 			<h:form>
 	           
 	            <h:commandButton class="btn btn-primary" id="button" value="View Presentation" action="#{sessionObject.selectedProject.downloadPDF}"/>
 	        </h:form>
+	        </h:panelGroup>
         </c:if>
         <c:if test="#{sessionObject.selectedProject.dataId!=0}">
+        <h:panelGroup>
         <h:form>   
 		    <p:commandButton  value="Download Project" ajax="false" icon="pi pi-arrow-down">
 		        <p:fileDownload value="#{sessionObject.selectedProject.file}" />
 		    </p:commandButton>      
 		</h:form>
+		</h:panelGroup>
 		</c:if>
 		<c:if test="#{sessionObject.selectedRepository.isActiv()}">
 		      <c:if test="#{sessionObject.selectedProject.isOwner()}">
+		      <h:panelGroup>
 		      		<a href="upload.xhtml" class="btn btn-primary">Overwrite</a>
+		      		</h:panelGroup>
 		      </c:if>
       </c:if>
+      </h:panelGrid>
     </div>
     <!-- /.container -->
     <!-- Footer -->

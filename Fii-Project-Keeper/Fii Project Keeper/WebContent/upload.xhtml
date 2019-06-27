@@ -1,156 +1,152 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="en"
-xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:ex="http://tutorialspoint.com/facelets"
-    >
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ex="http://tutorialspoint.com/facelets">
 
-  <h:head>
+<h:head>
 
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
 
-    <title>FII Project Keeper</title>
+	<title>FII Project Keeper</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="mainStyle/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+	<!-- Bootstrap core CSS -->
+	<link href="mainStyle/vendor/bootstrap/css/bootstrap.min.css"
+		rel="stylesheet" />
 
-    <!-- Custom styles for this template -->
-    <link href="mainStyle/css/heroic-features.css" rel="stylesheet"/>
-    
-    <style type="text/css">
+	<!-- Custom styles for this template -->
+	<link href="mainStyle/css/heroic-features.css" rel="stylesheet" />
+
+	<style type="text/css">
 .ui-datagrid-no-border>.ui-datagrid-content {
 	border: none;
-	background-color:none;
-	background-image:none;
-	background:none;
-}		
-p {
-color:#343a40;
+	background-color: none;
+	background-image: none;
+	background: none;
 }
+
+p {
+	color: #343a40;
+}
+
 .ui-widget-content a {
-    color: #343a40;
+	color: #343a40;
 }
 
 .ui-grid-row {
-    margin-bottom:10px;
+	margin-bottom: 10px;
 }
 
 .ui-growl {
-    z-index: 9999 !important;
+	z-index: 9999 !important;
 }
 
-.white-roundEdges-div
-{
-width:50%;
- background:#FFFFFF;
-  border-radius:25px;
-   text-align:left;
-    padding:10px;
+.white-roundEdges-div {
+	width: 50%;
+	background: #FFFFFF;
+	border-radius: 25px;
+	text-align: left;
+	padding: 10px;
 }
-
 </style>
 
-  </h:head>
+</h:head>
 
-  <h:body >
-  <f:metadata>
-  	<f:event type="preRenderView" listener="#{security.isAuthenticated()}"/>
-</f:metadata>
-    <!-- Navigation -->
-    <ex:navBar/>
+<h:body>
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{security.isAuthenticated()}" />
+	</f:metadata>
+	<!-- Navigation -->
+	<ex:navBar />
 
-    <!-- Page Content -->
-    <div class="container">
+	<!-- Page Content -->
+	<div class="container">
 
-      <!-- Jumbotron Header -->
-      <div class="jumbotron my-4" >
-      
-      <h1 align="center">Incarca un proiect</h1>
-      
-      
-      
-      <h:form enctype="multipart/form-data" id="panel">
-						
-						<p:growl id="growl"  life="10000" />
-						
-						
-      <h:panelGrid columns="1" width="100%" cellpadding="10px">
-      
-      <h:panelGroup>
-       <div class="white-roundEdges-div">
-	      <dl>
-		      <dt>Descriere</dt>
-		      
-		      <dd>
-		      		<p:inputTextarea rows="4" cols="40"  maxlength="255" counterTemplate="{0} characters remaining." autoResize="false" value="#{projectUploadView.description}">
-					  			<f:validateRegex pattern="^((?!').)*$"></f:validateRegex>
-					  		</p:inputTextarea>
-		      </dd>
-	      </dl>
-      </div>
-      </h:panelGroup>
-      
-      
-      <h:panelGroup>
-      <div class="white-roundEdges-div">
-	      <dl>
-		      <dt>Prezentare</dt>
-		      
-		      <dd>
-		      		 <h:inputFile  value="#{projectUploadView.presentation}" >
-					        </h:inputFile>
-		      </dd>
-	      </dl>
-      </div>
-      </h:panelGroup>
+		<!-- Jumbotron Header -->
+		<div class="jumbotron my-4">
 
-      <h:panelGroup>
-      <div class="white-roundEdges-div">
-	      <dl>
-		      <dt>Proiect</dt>
-		      
-		      <dd>
-		      <h:inputFile value="#{projectUploadView.file}"/>
-		      		
-		      </dd>
-	      </dl>
-      </div>
-     </h:panelGroup>
-     
-     <h:commandButton class="btn btn-primary" value="#{msg['submit']}"  icon="ui-icon-check" type="submit" action="#{projectUploadView.upload}" update="panel"/>
-      
-      </h:panelGrid>
-      
-      </h:form>
-      
-	      
-      
-    </div>
-      </div>
-      
-      
-    <!-- /.container -->
-    <!-- Footer -->
-    <footer class="py-5 bg-dark" style="position:fixed;
+			<h1 align="center">Incarca un proiect</h1>
+
+
+
+			<h:form enctype="multipart/form-data" id="panel">
+				<p:growl id="growl" life="10000" />
+
+				<h:panelGrid columns="1" width="100%" cellpadding="10px">
+
+					<h:panelGroup>
+						<div class="white-roundEdges-div">
+							<dl>
+								<dt>Descriere</dt>
+								<dd>
+									<p:inputTextarea rows="4" cols="40" maxlength="255"
+										counterTemplate="{0} characters remaining." autoResize="false"
+										value="#{projectUploadView.description}">
+										<f:validateRegex pattern="^((?!').)*$"></f:validateRegex>
+									</p:inputTextarea>
+								</dd>
+							</dl>
+						</div>
+					</h:panelGroup>
+					<h:panelGroup>
+						<div class="white-roundEdges-div">
+							<dl>
+								<dt>Prezentare</dt>
+
+								<dd>
+									<h:inputFile value="#{projectUploadView.presentation}">
+									</h:inputFile>
+								</dd>
+							</dl>
+						</div>
+					</h:panelGroup>
+					<h:panelGroup>
+						<div class="white-roundEdges-div">
+							<dl>
+								<dt>Proiect</dt>
+
+								<dd>
+									<h:inputFile value="#{projectUploadView.file}" />
+								</dd>
+							</dl>
+						</div>
+					</h:panelGroup>
+					<h:commandButton class="btn btn-primary" value="#{msg['submit']}"
+						icon="ui-icon-check" type="submit"
+						action="#{projectUploadView.upload}" update="panel" />
+
+				</h:panelGrid>
+
+			</h:form>
+
+
+
+		</div>
+	</div>
+
+
+	<!-- /.container -->
+	<!-- Footer -->
+	<footer class="py-5 bg-dark"
+		style="position:fixed;
    bottom:0;
    width:100%;
-   left: 0;"
-   >
-      <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
-      </div>
-      <!-- /.container -->
-    </footer>
+   left: 0;">
+	<div class="container">
+		<p class="m-0 text-center text-white">Copyright &copy; Your
+			Website 2018</p>
+	</div>
+	<!-- /.container --> </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="mainStyle/vendor/jquery/jquery.min.js"></script>
-    <script src="mainStyle/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  </h:body>
+	<!-- Bootstrap core JavaScript -->
+	<script src="mainStyle/vendor/jquery/jquery.min.js"></script>
+	<script src="mainStyle/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</h:body>
 
 </html>
