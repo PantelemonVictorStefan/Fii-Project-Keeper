@@ -48,12 +48,24 @@ p {
 }
 
 .white-roundEdges-div {
-	width: 50%;
-	background: #FFFFFF;
-	border-radius: 25px;
-	text-align: left;
-	padding: 10px;
+	background:#FFFFFF;
+  border-radius:25px;
+   text-align:left;
+    padding:10px;
 }
+
+
+.myjumbotron
+{
+    margin-bottom: 1.5rem !important;
+margin-top: 1.5rem !important;
+
+background-color: #e9ecef;
+border-radius: .99rem;
+text-align: center;
+padding:10px;
+}
+
 </style>
 
 </h:head>
@@ -69,7 +81,7 @@ p {
 	<div class="container">
 
 		<!-- Jumbotron Header -->
-		<div class="jumbotron my-4">
+		<div class="myjumbotron">
 
 			<h1 align="center">Incarca un proiect</h1>
 
@@ -78,12 +90,11 @@ p {
 			<h:form enctype="multipart/form-data" id="panel">
 				<p:growl id="growl" life="10000" />
 
-				<h:panelGrid columns="1" width="100%" cellpadding="10px">
-
+				<h:panelGrid columns="1" width="75%" style="margin:auto;" cellpadding="10px">
 					<h:panelGroup>
 						<div class="white-roundEdges-div">
 							<dl>
-								<dt>Descriere</dt>
+								<dt><h:outputText value="#{msg['description']}" /></dt>
 								<dd>
 									<p:inputTextarea rows="4" cols="40" maxlength="255"
 										counterTemplate="{0} characters remaining." autoResize="false"
@@ -97,7 +108,7 @@ p {
 					<h:panelGroup>
 						<div class="white-roundEdges-div">
 							<dl>
-								<dt>Prezentare</dt>
+								<dt><h:outputText value="#{msg['presentation']}" /></dt>
 
 								<dd>
 									<h:inputFile value="#{projectUploadView.presentation}">
@@ -109,7 +120,7 @@ p {
 					<h:panelGroup>
 						<div class="white-roundEdges-div">
 							<dl>
-								<dt>Proiect</dt>
+								<dt><h:outputText value="#{msg['project']}" /></dt>
 
 								<dd>
 									<h:inputFile value="#{projectUploadView.file}" />
