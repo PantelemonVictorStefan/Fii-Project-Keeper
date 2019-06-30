@@ -107,12 +107,12 @@ padding:10px;
 
       <!-- Jumbotron Header -->
       <div class="myjumbotron " >
-      <center style="margin:20px"><h1>Vizualizare Proiect</h1></center>
+      <center style="margin:20px"><h1><h:outputText value="#{msg['view_project']}" /></h1></center>
     <h:panelGrid columns="1" width="auto" style="margin:auto;" cellpadding="10px">
       <h:panelGroup>
        <div class="white-roundEdges-div">
 	      <dl>
-		      <dt>Autor</dt>
+		      <dt><h:outputText value="#{msg['author']}" /></dt>
 		      
 		      <dd>
 		      		<p><h:outputText value="#{sessionObject.selectedProject.userName}" /></p>
@@ -125,7 +125,7 @@ padding:10px;
       <h:panelGroup>
       <div class="white-roundEdges-div">
 	      <dl>
-		      <dt>Descriere</dt>
+		      <dt><h:outputText value="#{msg['description']}" /></dt>
 		      
 		      <dd>
 		      		<p><h:outputText value="#{sessionObject.selectedProject.description}" /></p>
@@ -145,14 +145,14 @@ padding:10px;
 		<h:panelGroup>
 			<h:form>
 	           
-	            <h:commandButton class="btn btn-primary" id="button" value="View Presentation" action="#{sessionObject.selectedProject.downloadPDF}"/>
+	            <h:commandButton class="btn btn-primary" id="button" value="#{msg['view_presentation']}" action="#{sessionObject.selectedProject.downloadPDF}"/>
 	        </h:form>
 	        </h:panelGroup>
         </c:if>
         <c:if test="#{sessionObject.selectedProject.dataId!=0}">
         <h:panelGroup>
         <h:form>   
-		    <p:commandButton  value="Download Project" ajax="false" icon="pi pi-arrow-down">
+		    <p:commandButton  value="#{msg['download_project']}" ajax="false" icon="pi pi-arrow-down">
 		        <p:fileDownload value="#{sessionObject.selectedProject.file}" />
 		    </p:commandButton>      
 		</h:form>
@@ -161,7 +161,7 @@ padding:10px;
 		<c:if test="#{sessionObject.selectedRepository.isActiv()}">
 		      <c:if test="#{sessionObject.selectedProject.isOwner()}">
 		      <h:panelGroup>
-		      		<a href="upload.xhtml" class="btn btn-primary">Overwrite</a>
+		      		<a href="upload.xhtml" class="btn btn-primary"><h:outputText value="#{msg['overwrite']}" /></a>
 		      		</h:panelGroup>
 		      </c:if>
       </c:if>
@@ -169,13 +169,13 @@ padding:10px;
     </div>
     <!-- /.container -->
     <!-- Footer -->
-    <footer class="py-5 bg-dark" style="position:fixed;
+    <footer class="py-3 bg-dark" style="position:fixed;
    bottom:0;
    width:100%;
    left: 0;"
    >
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
+        <p class="m-0 text-center text-white">Copyright &copy; Licenta 2019</p>
       </div>
       <!-- /.container -->
     </footer>
