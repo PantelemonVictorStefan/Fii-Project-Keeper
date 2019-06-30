@@ -16,6 +16,7 @@ import DataAccess.DataAccessAPI;
 import DataAccess.Limbaj;
 import DataAccess.Repository;
 import resources.Database;
+import resources.Security;
 import resources.Validator;
 
 @ManagedBean
@@ -254,7 +255,10 @@ public class RepositoryDTO {
 		{
 			DataAccessAPI api=new DataAccessAPI();
 			if(api.addRepository(getAsProject()))
+			{
 				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Repository-ul a fost creat cu succes! ",""));
+				Security.redirect("repositories.xhtml");
+			}
 			else
 				FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_ERROR, "Repository-ul nu a putut fi salvat",""));
 		}

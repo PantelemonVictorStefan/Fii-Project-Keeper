@@ -51,7 +51,6 @@ top: 10%;
 
 .white-roundEdges-div
 {
-width:50%;
  background:#FFFFFF;
   border-radius:25px;
    text-align:left;
@@ -62,18 +61,29 @@ dd {
 padding-left:40px;
 }
 
-ul {
+.horizontal_list {
   list-style-type: none;
   overflow: hidden;
   margin:0;
   padding:0px;
 }
 
-li {
+.horizontal_li {
 margin:5px;
   float: left;
 }
 
+
+.myjumbotron
+{
+    margin-bottom: 1.5rem !important;
+margin-top: 1.5rem !important;
+
+background-color: #e9ecef;
+border-radius: .99rem;
+text-align: center;
+padding:10px;
+}
 </style>
 
   </h:head>
@@ -91,11 +101,11 @@ margin:5px;
     <div class="container">
 
       <!-- Jumbotron Header -->
-      <div class="jumbotron my-4" >
+      <div class="myjumbotron" >
       
       <h1 align="center"><h:outputText value="#{sessionObject.selectedRepository.numeRepository}" /></h1>
+      <h:panelGrid style="margin:auto;" columns="1" width="75%" cellpadding="10px" >
       
-      <h:panelGrid columns="1" width="100%" cellpadding="10px">
       
       <h:panelGroup>
        <div class="white-roundEdges-div">
@@ -130,9 +140,9 @@ margin:5px;
 		      <dt><h:outputText value="#{msg['languages']}"/></dt>
 		      
 		      <dd>
-		      <ul style="display:inline-block">
+		      <ul class="horizontal_list" style="display:inline-block">
 		      <ui:repeat value="#{sessionObject.selectedRepository.limbaje}" var="limbaj">
-    	      	<li><p><h:outputText value="#{limbaj.denumire}" /></p></li>
+    	      	<li class="horizontal_li"><p><h:outputText value="#{limbaj.denumire}" /></p></li>
 			  </ui:repeat>
 		      </ul>
 		      		
@@ -161,32 +171,52 @@ margin:5px;
       
       </div>
       
+      <h:panelGrid columns="3" width="auto" style="margin:auto;" cellpadding="15px">
       
-      <c:if test="#{sessionObject.selectedRepository.userHasProject()}">
-      <h:form>
-      		<h:commandLink class="btn btn-primary" value="#{msg['my_upload']}" actionListener="#{sessionObject.viewProject()}"  />
-      </h:form>
+      <h:panelGroup>
+		      <c:if test="#{sessionObject.selectedRepository.userHasProject()}">
+		      <h:form>
+		      		<h:commandLink class="btn btn-primary" value="#{msg['my_upload']}" actionListener="#{sessionObject.viewProject()}"  />
+		      </h:form>
+		      
+		      </c:if>
+		      
+	</h:panelGroup>
+		      
+		      
+		      <c:if test="#{sessionObject.selectedRepository.isActiv()}">
+		      <c:if test="#{sessionObject.selectedRepository.userHasProject()==false}">
+		      <h:panelGroup>
+		      <a href="upload.xhtml" class="btn btn-primary"><h:outputText value="#{msg['upload']}"/></a>
+		      </h:panelGroup>
+		      </c:if>
+		      </c:if>
+		      
+		      
+		      
+		      <c:if test="#{user.type=='Profesor'}">
+		      <h:panelGroup>
+		      <a href="proiecte.xhtml" class="btn btn-primary"><h:outputText value="#{msg['view_projects']}"/></a>
+		      </h:panelGroup>
+		      
+		      <h:panelGroup>
+		      <h:form>
+		      <p:growl id="growl"  life="10000" />
+		      <c:if test="#{sessionObject.selectedRepository.activ}">
+		      		<h:commandLink class="btn btn-primary" value="#{msg['archive']}" actionListener="#{sessionObject.activateDeactivateRepository()}"  />
+		      </c:if>
+		      <c:if test="#{sessionObject.selectedRepository.activ==false}">
+		      		<h:commandLink class="btn btn-primary" value="#{msg['restore']}" actionListener="#{sessionObject.activateDeactivateRepository()}"  />
+		      </c:if>
+		      </h:form>
+		      
+		      </h:panelGroup>
+		      
+		      </c:if>
+		      
+		      
+      </h:panelGrid>
       
-      </c:if>
-      <c:if test="#{sessionObject.selectedRepository.isActiv()}">
-      <c:if test="#{sessionObject.selectedRepository.userHasProject()==false}">
-      
-      <a href="upload.xhtml" class="btn btn-primary"><h:outputText value="#{msg['upload']}"/></a>
-      </c:if>
-      </c:if>
-      
-      <c:if test="#{user.type=='Profesor'}">
-      <a href="proiecte.xhtml" class="btn btn-primary"><h:outputText value="#{msg['view_projects']}"/></a>
-      <h:form>
-      <p:growl id="growl"  life="10000" />
-      <c:if test="#{sessionObject.selectedRepository.activ}">
-      		<h:commandLink class="btn btn-primary" value="#{msg['archive']}" actionListener="#{sessionObject.activateDeactivateRepository()}"  />
-      </c:if>
-      <c:if test="#{sessionObject.selectedRepository.activ==false}">
-      		<h:commandLink class="btn btn-primary" value="#{msg['restore']}" actionListener="#{sessionObject.activateDeactivateRepository()}"  />
-      </c:if>
-      </h:form>
-      </c:if>
     </div>
     <!-- /.container -->
     <!-- Footer -->

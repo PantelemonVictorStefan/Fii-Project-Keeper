@@ -28,6 +28,14 @@ xmlns="http://www.w3.org/1999/xhtml"
 right: 20px;
 top: 10%;
 }
+
+.left-column {
+     width: 40%;
+}
+
+.right-column {
+     width: 60%;
+}
         </style>
   </h:head>
 
@@ -60,14 +68,16 @@ top: 10%;
 				        	<h:panelGroup>
 						        <div style="  width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
 						        
-							        <h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%" >
+							        <h:panelGrid columns="2" columnClasses="left-column, right-column" cellpadding="5" width="100%" style="margin-left: 10%" >
 							        	
-									     
+									     <h:panelGroup >
 								        <p:outputLabel for="numeRepository" value="#{msg['repository_name']}" />
+								        </h:panelGroup>
+								        <h:panelGroup >
 								        <p:inputText id="numeRepository" value="#{repositoryDTO.numeRepository}" size="24" required="true" maxlength="30">
 								        	<f:validateRegex pattern="((?!')(?!\/)(?!\\)(?!:)(?!\*)(?!\?)(?!\&#34;)(?!&#60;)(?!&#62;)(?!\|).)*$"></f:validateRegex>
 								        </p:inputText>
-								        
+								        </h:panelGroup>
 							        </h:panelGrid>			        
 					        	</div>
 					        	</h:panelGroup>
@@ -81,7 +91,7 @@ top: 10%;
 					        <h:panelGroup>
 					        	<div style="  width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
 					        
-					        		<h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%">
+					        		<h:panelGrid columns="2" columnClasses="left-column, right-column" cellpadding="5" width="100%" style="margin-left: 10%">
 							        
 									         		<p:outputLabel value="#{msg['choose_years']}" />
 									         	
@@ -106,7 +116,7 @@ top: 10%;
 					        	<p:outputLabel  value="#{msg['deadline']}"  style="font-size:25px"/>
 					       <h:panelGroup>
 						        <div style=" width:150%; background:#FFFFFF; border-radius:25px; text-align:left;">
-								    <h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%">
+								    <h:panelGrid columns="2" columnClasses="left-column, right-column" cellpadding="5" width="100%" style="margin-left: 10%">
 								       
 									        		<p:outputLabel for="data" value="#{msg['date']}:" />
 									        	
@@ -123,7 +133,7 @@ top: 10%;
 					        	<p:outputLabel  value="#{msg['details']}"  style="font-size:25px"/>
 					       <h:panelGroup>
 					        	<div style=" width:150%;  background:#FFFFFF; border-radius:25px; text-align:left;">
-					        		<h:panelGrid columns="2" cellpadding="5" width="100%" style="margin-left: 10%" >
+					        		<h:panelGrid columns="2" columnClasses="left-column, right-column" cellpadding="5" width="100%" style="margin-left: 10%" >
 					        		
 					        			<p:outputLabel for="materie" value="#{msg['subject']}" />
 									    <p:selectOneMenu id="materie" value="#{repositoryDTO.materie}" effect="fold" editable="true"  >
